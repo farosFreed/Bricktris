@@ -6,7 +6,7 @@
         <Bricklist :list="mockListData" />
       </div>
       <div class="rightcol">
-        <div id="game" class="grid"></div>
+        <canvas id="game" width="320" height="640" class="grid"></canvas>
       </div>
     </div>
   </div>
@@ -28,8 +28,8 @@ export default {
       mockListData: mockListData,
       tetrominos: tetrominos,
       colors: colors,
-      // canvas: null,
-      // context: null,
+      canvas: null,
+      context: null,
       grid: 32,
       tetrominoSequence: [],
       playfield: [],
@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     /**
+     * NOT IMPLEMENTED YET JUST FOR SHOW
      * Draws the tetromino on the canvas.
      *
      * @param {string} param1 - The first parameter of the function.
@@ -44,14 +45,11 @@ export default {
      * @returns {boolean} - The result of the function.
      */
     drawTetromino() {
-      const canvas = document.getElementById("game");
-      const ctx = canvas.getContext("2d");
-
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
             // drawing 1 px smaller than the grid creates a grid effect
-            ctx.fillRect(
+            this.ctx.fillRect(
               (tetromino.col + col) * grid,
               (tetromino.row + row) * grid,
               grid - 1,
@@ -62,6 +60,10 @@ export default {
       }
     },
     setupGameboard() {
+      this.canvas = document.getElementById("game");
+      console.log(this.canvas);
+      this.ctx = this.canvas.getContext("2d");
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // create playfield
       for (let row = -2; row < 20; row++) {
         this.playfield[row] = [];
@@ -71,9 +73,31 @@ export default {
       }
       console.table(this.playfield);
     },
+    drawPlayfield() {
+      for (let row = 0; row < this.playfield.length; row++) {
+        for (let col = 0; col < this.playfield[row].length; col++) {
+          if (this.playfield[row][col]) {
+            const name = this.playfield[row][col];
+            this.ctx.fillStyle = colors[name];
+            this.ctx.fillRect(
+              col * this.grid,
+              row * this.grid,
+              this.grid - 1,
+              this.grid - 1
+            );
+          }
+        }
+      }
+    },
   },
   mounted() {
     this.setupGameboard();
+    this.playfield[0][0] = "I";
+    this.playfield[0][1] = "I";
+    this.playfield[0][2] = "J";
+    this.playfield[1][2] = "J";
+    this.playfield[2][2] = "J";
+    this.drawPlayfield();
   },
 };
 
@@ -125,19 +149,11 @@ const colors = {
   J: "blue",
   L: "orange",
 };
-
-const name = "L";
-const matrix = tetrominos[name];
-
-/* return
-  name: name, // name of the piece (L, O, etc.)
-  matrix: matrix, // the current rotation matrix
-  row: row, // current row (starts offscreen)
-  col: col, // current col
-}; */
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$grid-size: 32px;
+
 h1 {
   text-align: center;
   font-family: sans-serif;
@@ -150,16 +166,12 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
-.leftcol {
-}
 
 .grid {
   border: 1px solid #333;
-  width: 100%;
-  height: 100%;
-  background-size: 40px 40px;
-  background-position-x: -20px;
-  background-position-y: -10px;
+  background-size: $grid-size $grid-size;
+  background-position-x: calc($grid-size/2);
+  background-position-y: calc($grid-size/2);
   background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
 }
 </style>
