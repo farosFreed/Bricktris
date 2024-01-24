@@ -40,9 +40,8 @@ export default {
     completeTask() {
       // spawn shape if there is one
       if (this.shape) {
-        this.$emit("drawTetromino", this.shape);
+        this.$emit("spawnTetromino", this.shape);
       }
-      // TODO make it moveable? make it fall?
       this.$emit("closeModal");
     },
   },

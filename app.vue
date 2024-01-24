@@ -10,7 +10,7 @@
       "
       :shape="modalData.shape ? modalData.shape : ''"
       @closeModal="this.modalShow = !this.modalShow"
-      @drawTetromino="(shape) => drawTetromino(shape)"
+      @spawnTetromino="(shape) => spawnTetromino(shape)"
     ></Modal>
     <h1>Bricktris</h1>
     <div class="twocol">
@@ -58,41 +58,18 @@ export default {
       tetrominos: tetrominos,
       colors: colors,
       canvas: null,
-      context: null,
+      ctx: null, // canvas context
       grid: 32,
       tetrominoSequence: [], // not using? deprecate?
       playfield: [],
       modalShow: false,
       modalData: {},
       currentTetromino: null,
+      count: 0, // animation frame counter
+      animation: null, // track animation so we can toggle it
     };
   },
   methods: {
-    /**
-     * Draws the tetromino on the canvas.
-     * @param {string} shape - The letter corresponding to the tetromino shape to draw.
-     **/
-    drawTetromino(shape) {
-      // create tetromino object to track name, position, and rotation of drawing
-      const tetromino = {
-        name: shape,
-        matrix: this.tetrominos[shape],
-        row: 0,
-        col: 4,
-      };
-      for (let row = 0; row < tetromino.matrix.length; row++) {
-        for (let col = 0; col < tetromino.matrix[row].length; col++) {
-          if (tetromino.matrix[row][col]) {
-            this.ctx.fillRect(
-              (tetromino.col + col) * this.grid,
-              (tetromino.row + row) * this.grid,
-              this.grid - 1,
-              this.grid - 1
-            );
-          }
-        }
-      }
-    },
     setupGameboard() {
       this.canvas = document.getElementById("game");
       this.ctx = this.canvas.getContext("2d");
@@ -104,6 +81,25 @@ export default {
           this.playfield[row][col] = 0;
         }
       }
+    },
+    gameLoop() {
+      // TODO
+      this.animation = requestAnimationFrame(this.gameLoop);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.drawPlayfield();
+      this.count++;
+      // tetromino falls every 35 frames
+      if (this.count > 35) {
+        this.currentTetromino.row++;
+        this.count = 0;
+
+        // place piece if it runs into anything
+        /* if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+          tetromino.row--;
+          placeTetromino();
+        } */
+      }
+      this.moveTetromino();
     },
     drawPlayfield() {
       for (let row = 0; row < this.playfield.length; row++) {
@@ -121,6 +117,80 @@ export default {
         }
       }
     },
+    /**
+     * Draws the initial tetromino on the canvas.
+     * @param {string} shape - The letter corresponding to the tetromino shape to draw.
+     **/
+    spawnTetromino(shape) {
+      // create tetromino object to track name, position, and rotation of drawing
+      this.currentTetromino = {
+        name: shape,
+        matrix: this.tetrominos[shape],
+        row: 0,
+        col: 4,
+      };
+      this.moveTetromino();
+      //start falling animation
+      this.animation = requestAnimationFrame(this.gameLoop);
+    },
+    moveTetromino() {
+      const tetromino = this.currentTetromino;
+      console.log("moveTetromino");
+      console.log(tetromino);
+      for (let row = 0; row < tetromino.matrix.length; row++) {
+        for (let col = 0; col < tetromino.matrix[row].length; col++) {
+          if (tetromino.matrix[row][col]) {
+            this.ctx.fillStyle = colors[tetromino.name];
+            this.ctx.fillRect(
+              (tetromino.col + col) * this.grid,
+              (tetromino.row + row) * this.grid,
+              this.grid - 1,
+              this.grid - 1
+            );
+          }
+        }
+      }
+    },
+    handleKeyPress(e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        const col =
+          e.key === "ArrowRight"
+            ? (this.currentTetromino.col -= 1)
+            : (this.currentTetromino.col += 1);
+
+        /* if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+          tetromino.col = col;
+        } */
+      } else if (e.key === "ArrowUp") {
+        this.currentTetromino.matrix = this.rotate(
+          this.currentTetromino.matrix
+        );
+        /* if (isValidMove(matrix, tetromino.row, tetromino.col)) {
+          tetromino.matrix = matrix;
+        } */
+      } /* else if (e.key === "ArrowDown") {
+        this.currentTetromino.row++;
+
+        if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+          tetromino.row = row - 1;
+
+          placeTetromino();
+          return;
+        }
+
+        tetromino.row = row;
+      } */
+      this.moveTetromino();
+    },
+    // rotate an NxN matrix 90deg
+    // @see https://codereview.stackexchange.com/a/186834
+    rotate(matrix) {
+      const N = matrix.length - 1;
+      const result = matrix.map((row, i) =>
+        row.map((val, j) => matrix[N - j][i])
+      );
+      return result;
+    },
     showModal(item) {
       this.modalData = item;
       this.modalShow = !this.modalShow;
@@ -129,7 +199,14 @@ export default {
   mounted() {
     this.setupGameboard();
     // TODO load player localstorange / cookies / saved data
+    // listen for keydown events
+    window.addEventListener("keydown", this.handleKeyPress);
+
     this.drawPlayfield();
+  },
+  beforeUnmount() {
+    // remove event listener before component is unmounted
+    window.removeEventListener("keydown", this.handleKeyPress);
   },
 };
 
