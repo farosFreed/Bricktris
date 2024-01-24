@@ -1,6 +1,11 @@
 <template>
   <ul>
-    <li v-for="item in list" class="item" :key="item.id">
+    <li
+      v-for="item in list"
+      class="item"
+      :key="item.id"
+      @click="$emit('toggleModal', item)"
+    >
       <img :src="item.image" :alt="item.alt" />
       {{ item.name }}
     </li>
@@ -15,6 +20,7 @@ export default {
       required: true,
     },
   },
+  methods: {},
 };
 </script>
 

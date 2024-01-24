@@ -1,9 +1,21 @@
 <template>
   <div class="apptheme">
+    <Modal
+      :show="modalShow"
+      :title="modalData.name ? modalData.name : 'Welcome'"
+      :text="
+        modalData.description
+          ? modalData.description
+          : 'Click the button to start the game'
+      "
+      :shape="modalData.shape ? modalData.shape : ''"
+      @closeModal="this.modalShow = !this.modalShow"
+      @drawTetromino="(shape) => drawTetromino(shape)"
+    ></Modal>
     <h1>Bricktris</h1>
     <div class="twocol">
       <div class="leftcol">
-        <Bricklist :list="mockListData" />
+        <Bricklist :list="mockListData" @toggleModal="(i) => showModal(i)" />
       </div>
       <div class="rightcol">
         <canvas id="game" width="320" height="640" class="grid"></canvas>
@@ -14,14 +26,31 @@
 
 <script>
 const mockListData = [
-  { name: "cooking", alt: "Z tetra", color: "red", img: "Z.svg" },
-  { name: "look for job", alt: "L tetra", color: "purple", img: "L.svg" },
-  { name: "do laundry", alt: "I tetra", color: "blue", img: "I.svg" },
-  { name: "do dishes", alt: "O tetra", color: "lightblue", img: "O.svg" },
-  { name: "exercise", alt: "T tetra", color: "pink", img: "T.svg" },
+  { name: "cooking", alt: "Z tetra", shape: "Z", color: "red", img: "Z.svg" },
+  {
+    name: "look for job",
+    alt: "L tetra",
+    shape: "L",
+    color: "purple",
+    img: "L.svg",
+  },
+  {
+    name: "do laundry",
+    alt: "I tetra",
+    shape: "I",
+    color: "blue",
+    img: "I.svg",
+  },
+  {
+    name: "do dishes",
+    alt: "O tetra",
+    shape: "O",
+    color: "lightblue",
+    img: "O.svg",
+  },
+  { name: "exercise", alt: "T tetra", shape: "T", color: "pink", img: "T.svg" },
 ];
 
-// must export for template to get data
 export default {
   data() {
     return {
@@ -31,29 +60,34 @@ export default {
       canvas: null,
       context: null,
       grid: 32,
-      tetrominoSequence: [],
+      tetrominoSequence: [], // not using? deprecate?
       playfield: [],
+      modalShow: false,
+      modalData: {},
+      currentTetromino: null,
     };
   },
   methods: {
     /**
-     * NOT IMPLEMENTED YET JUST FOR SHOW
      * Draws the tetromino on the canvas.
-     *
-     * @param {string} param1 - The first parameter of the function.
-     * @param {number} param2 - The second parameter of the function.
-     * @returns {boolean} - The result of the function.
-     */
-    drawTetromino() {
+     * @param {string} shape - The letter corresponding to the tetromino shape to draw.
+     **/
+    drawTetromino(shape) {
+      // create tetromino object to track name, position, and rotation of drawing
+      const tetromino = {
+        name: shape,
+        matrix: this.tetrominos[shape],
+        row: 0,
+        col: 4,
+      };
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
-            // drawing 1 px smaller than the grid creates a grid effect
             this.ctx.fillRect(
-              (tetromino.col + col) * grid,
-              (tetromino.row + row) * grid,
-              grid - 1,
-              grid - 1
+              (tetromino.col + col) * this.grid,
+              (tetromino.row + row) * this.grid,
+              this.grid - 1,
+              this.grid - 1
             );
           }
         }
@@ -61,7 +95,6 @@ export default {
     },
     setupGameboard() {
       this.canvas = document.getElementById("game");
-      console.log(this.canvas);
       this.ctx = this.canvas.getContext("2d");
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // create playfield
@@ -71,7 +104,6 @@ export default {
           this.playfield[row][col] = 0;
         }
       }
-      console.table(this.playfield);
     },
     drawPlayfield() {
       for (let row = 0; row < this.playfield.length; row++) {
@@ -89,14 +121,14 @@ export default {
         }
       }
     },
+    showModal(item) {
+      this.modalData = item;
+      this.modalShow = !this.modalShow;
+    },
   },
   mounted() {
     this.setupGameboard();
-    this.playfield[0][0] = "I";
-    this.playfield[0][1] = "I";
-    this.playfield[0][2] = "J";
-    this.playfield[1][2] = "J";
-    this.playfield[2][2] = "J";
+    // TODO load player localstorange / cookies / saved data
     this.drawPlayfield();
   },
 };
