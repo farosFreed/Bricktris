@@ -16,6 +16,7 @@
     <div class="twocol">
       <div class="leftcol">
         <Bricklist :list="mockListData" @toggleModal="(i) => showModal(i)" />
+        <button @click="clearGameboard">Clear Board</button>
       </div>
       <div class="rightcol">
         <canvas id="game" width="320" height="640" class="grid"></canvas>
@@ -69,6 +70,15 @@ export default {
       animation: null, // track animation so we can toggle it
     };
   },
+  watch: {
+    playfield: {
+      handler(newPlayfield) {
+        // Save playfield data to localStorage whenever it changes
+        localStorage.setItem("playfield", JSON.stringify(newPlayfield));
+      },
+      deep: true, // Watch for nested changes in the playfield data
+    },
+  },
   methods: {
     setupGameboard() {
       this.canvas = document.getElementById("game");
@@ -81,6 +91,10 @@ export default {
           this.playfield[row][col] = 0;
         }
       }
+    },
+    clearGameboard() {
+      this.setupGameboard();
+      this.drawPlayfield();
     },
     gameLoop() {
       this.animation = requestAnimationFrame(this.gameLoop);
@@ -255,11 +269,14 @@ export default {
   },
   mounted() {
     this.setupGameboard();
-    // TODO load player localstorange / cookies / saved data
+    // if localStorage has playfield data, load it
+    const playfield = localStorage.getItem("playfield");
+    if (playfield) {
+      this.playfield = JSON.parse(playfield);
+    }
+    this.drawPlayfield();
     // listen for keydown events
     window.addEventListener("keydown", this.handleKeyPress);
-
-    this.drawPlayfield();
   },
   beforeUnmount() {
     // remove event listener before component is unmounted
