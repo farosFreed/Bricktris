@@ -83,7 +83,6 @@ export default {
       }
     },
     gameLoop() {
-      // TODO
       this.animation = requestAnimationFrame(this.gameLoop);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawPlayfield();
@@ -94,12 +93,18 @@ export default {
         this.count = 0;
 
         // place piece if it runs into anything
-        /* if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
-          tetromino.row--;
-          placeTetromino();
-        } */
+        if (
+          !this.isValidMove(
+            this.currentTetromino.matrix,
+            this.currentTetromino.row,
+            this.currentTetromino.col
+          )
+        ) {
+          this.currentTetromino.row--;
+          this.placeTetromino();
+        }
       }
-      this.moveTetromino();
+      this.drawTetromino();
     },
     drawPlayfield() {
       for (let row = 0; row < this.playfield.length; row++) {
@@ -129,14 +134,12 @@ export default {
         row: 0,
         col: 4,
       };
-      this.moveTetromino();
+      this.drawTetromino();
       //start falling animation
       this.animation = requestAnimationFrame(this.gameLoop);
     },
-    moveTetromino() {
+    drawTetromino() {
       const tetromino = this.currentTetromino;
-      console.log("moveTetromino");
-      console.log(tetromino);
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
@@ -151,36 +154,71 @@ export default {
         }
       }
     },
-    handleKeyPress(e) {
-      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-        const col =
-          e.key === "ArrowRight"
-            ? (this.currentTetromino.col -= 1)
-            : (this.currentTetromino.col += 1);
-
-        /* if (isValidMove(tetromino.matrix, tetromino.row, col)) {
-          tetromino.col = col;
-        } */
-      } else if (e.key === "ArrowUp") {
-        this.currentTetromino.matrix = this.rotate(
-          this.currentTetromino.matrix
-        );
-        /* if (isValidMove(matrix, tetromino.row, tetromino.col)) {
-          tetromino.matrix = matrix;
-        } */
-      } /* else if (e.key === "ArrowDown") {
-        this.currentTetromino.row++;
-
-        if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-          tetromino.row = row - 1;
-
-          placeTetromino();
-          return;
+    // place the tetromino on the playfield
+    placeTetromino() {
+      const tetromino = this.currentTetromino;
+      for (let row = 0; row < tetromino.matrix.length; row++) {
+        for (let col = 0; col < tetromino.matrix[row].length; col++) {
+          if (tetromino.matrix[row][col]) {
+            // game over if piece has any part offscreen
+            if (tetromino.row + row < 0) {
+              // TO DO
+              console.log("game over");
+              // return showGameOver();
+            }
+            this.playfield[tetromino.row + row][tetromino.col + col] =
+              tetromino.name;
+          }
         }
+      }
 
-        tetromino.row = row;
-      } */
-      this.moveTetromino();
+      // TO DO LINE CLEAR LOGIC
+      /* 
+      // check for line clears starting from the bottom and working our way up
+      for (let row = playfield.length - 1; row >= 0; ) {
+        if (playfield[row].every((cell) => !!cell)) {
+          // drop every row above this one
+          for (let r = row; r >= 0; r--) {
+            for (let c = 0; c < playfield[r].length; c++) {
+              playfield[r][c] = playfield[r - 1][c];
+            }
+          }
+        } else {
+          row--;
+        }
+      }
+      */
+      // stop animation & draw new piece as part of playfield
+      cancelAnimationFrame(this.animation);
+      this.drawPlayfield();
+      this.currentTetromino = null;
+    },
+    // tetromino movement
+    handleKeyPress(e) {
+      // if there is no current tetromino, do nothing
+      if (this.currentTetromino === null) return;
+
+      // variable that will track next positions for validation
+      let tetromino = this.currentTetromino;
+      // left & right movement with arrow keys
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        const col =
+          e.key === "ArrowLeft"
+            ? this.currentTetromino.col - 1
+            : this.currentTetromino.col + 1;
+        console.log("col", col);
+        if (this.isValidMove(tetromino.matrix, tetromino.row, col)) {
+          this.currentTetromino.col = col;
+        }
+        console.log("currentTetromino", this.currentTetromino);
+        // rotate with arrow up
+      } else if (e.key === "ArrowUp") {
+        tetromino.matrix = this.rotate(this.currentTetromino.matrix);
+        if (this.isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+          this.currentTetromino.matrix = tetromino.matrix;
+        }
+      }
+      this.drawTetromino();
     },
     // rotate an NxN matrix 90deg
     // @see https://codereview.stackexchange.com/a/186834
@@ -190,6 +228,25 @@ export default {
         row.map((val, j) => matrix[N - j][i])
       );
       return result;
+    },
+    // check to see if the new matrix/row/col is valid
+    isValidMove(matrix, cellRow, cellCol) {
+      for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+          if (
+            matrix[row][col] &&
+            // outside the game bounds
+            (cellCol + col < 0 ||
+              cellCol + col >= this.playfield[0].length ||
+              cellRow + row >= this.playfield.length ||
+              // collides with another piece
+              this.playfield[cellRow + row][cellCol + col])
+          ) {
+            return false;
+          }
+        }
+      }
+      return true;
     },
     showModal(item) {
       this.modalData = item;
