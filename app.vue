@@ -30,29 +30,23 @@
 import isUserUsingMobile from "@/utils/detectMobile";
 
 const mockListData = [
-  { name: "cooking", alt: "Z tetra", shape: "Z", color: "red", img: "Z.svg" },
+  { name: "cooking", alt: "Z tetra", shape: "Z" },
   {
     name: "look for job",
     alt: "L tetra",
     shape: "L",
-    color: "purple",
-    img: "L.svg",
   },
   {
     name: "do laundry",
     alt: "I tetra",
     shape: "I",
-    color: "blue",
-    img: "I.svg",
   },
   {
     name: "do dishes",
     alt: "O tetra",
     shape: "O",
-    color: "lightblue",
-    img: "O.svg",
   },
-  { name: "exercise", alt: "T tetra", shape: "T", color: "pink", img: "T.svg" },
+  { name: "exercise", alt: "T tetra", shape: "T" },
 ];
 
 export default {
@@ -339,20 +333,20 @@ const tetrominos = {
   ],
 };
 
+// move to utils file ??? fix colors to reference css variables
 const colors = {
-  I: "cyan",
-  O: "yellow",
-  T: "purple",
+  I: "#ff006e",
+  O: "#8338ec",
+  T: "#3a86ff",
   S: "green",
-  Z: "red",
+  Z: "#ffbe0b",
   J: "blue",
-  L: "orange",
+  L: "#fb5607",
 };
 </script>
 
 <style lang="scss" scoped>
-$grid-size: 32px;
-
+@import "~/assets/styles/variables.scss";
 h1 {
   text-align: center;
   font-family: sans-serif;

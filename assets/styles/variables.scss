@@ -1,0 +1,45 @@
+// colors
+// ui
+$light-grey: #eee;
+// palette 1 - https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
+$charcoal: #264653;
+$persian-green: #2a9d8f;
+$saffron: #e9c46a;
+$sandy-brown: #f4a261;
+$burnt-sienna: #e76f51;
+// palette 2 - https://coolors.co/ffbe0b-fb5607-ff006e-8338ec-3a86ff
+$amber: #ffbe0b;
+$orange-soda: #fb5607;
+$hot-pink: #ff006e;
+$blue-violet: #8338ec;
+$azure: #3a86ff;
+
+// layouts
+$spacer: 10px;
+$border-radius: 5px;
+
+// game
+$grid-size: 32;
+
+// config UI
+$button-background: $light-grey;
+
+// config tetronimos
+$Z-tetromino-color: $amber;
+$L-tetromino-color: $orange-soda;
+$I-teromino-color: $hot-pink;
+$O-tetromino-color: $blue-violet;
+$T-tetromino-color: $azure;
+
+// colors for tetronimo filters palette 1
+// https://codepen.io/sosuke/pen/Pjoqqp
+$Z-tetromino-filter: invert(79%) sepia(22%) saturate(3895%) hue-rotate(352deg)
+  brightness(105%) contrast(101%);
+$L-tetromino-filter: invert(57%) sepia(88%) saturate(4681%) hue-rotate(353deg)
+  brightness(95%) contrast(108%);
+$I-tetromino-filter: invert(30%) sepia(92%) saturate(7331%) hue-rotate(326deg)
+  brightness(98%) contrast(113%);
+$O-tetromino-filter: invert(29%) sepia(50%) saturate(7499%) hue-rotate(257deg)
+  brightness(95%) contrast(94%);
+$T-tetromino-filter: invert(71%) sepia(78%) saturate(6443%) hue-rotate(203deg)
+  brightness(102%) contrast(101%);
