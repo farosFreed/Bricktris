@@ -16,6 +16,7 @@
     <div class="twocol">
       <div class="leftcol">
         <Bricklist :list="mockListData" @toggleModal="(i) => showModal(i)" />
+        <MobileKeypad @handleKeyPress="(e) => handleKeyPress(e)" />
         <button @click="clearGameboard">Clear Board</button>
       </div>
       <div class="rightcol">

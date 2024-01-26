@@ -24,16 +24,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$spacer: 10px;
+$border-radius: 5px;
 ul {
   list-style-type: none;
+  padding: 0;
   margin: 0;
 }
 li.item {
-  padding: 10px;
-  margin: 10px;
+  padding: $spacer;
+  margin-bottom: $spacer;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: $border-radius;
   background-color: lightgray;
   display: flex;
   justify-content: space-between;
