@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import isUserUsingMobile from "@/utils/detectMobile";
+
 const mockListData = [
   { name: "cooking", alt: "Z tetra", shape: "Z", color: "red", img: "Z.svg" },
   {
@@ -69,6 +71,7 @@ export default {
       currentTetromino: null,
       count: 0, // animation frame counter
       animation: null, // track animation so we can toggle it
+      showMobileKeypad: false,
     };
   },
   watch: {
@@ -117,6 +120,7 @@ export default {
         ) {
           this.currentTetromino.row--;
           this.placeTetromino();
+          return;
         }
       }
       this.drawTetromino();
@@ -221,17 +225,24 @@ export default {
           e.key === "ArrowLeft"
             ? this.currentTetromino.col - 1
             : this.currentTetromino.col + 1;
-        console.log("col", col);
         if (this.isValidMove(tetromino.matrix, tetromino.row, col)) {
           this.currentTetromino.col = col;
         }
-        console.log("currentTetromino", this.currentTetromino);
         // rotate with arrow up
       } else if (e.key === "ArrowUp") {
         tetromino.matrix = this.rotate(this.currentTetromino.matrix);
         if (this.isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
           this.currentTetromino.matrix = tetromino.matrix;
         }
+      } // down movement with arrow down
+      else if (e.key === "ArrowDown") {
+        tetromino.row++;
+        if (!this.isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+          tetromino.row--;
+          this.placeTetromino();
+          return;
+        }
+        this.currentTetromino.row = tetromino.row;
       }
       this.drawTetromino();
     },
@@ -276,6 +287,10 @@ export default {
       this.playfield = JSON.parse(playfield);
     }
     this.drawPlayfield();
+    //check if mobile
+    this.showMobileKeypad = isUserUsingMobile();
+    console.log("showMobileKeypad", this.showMobileKeypad);
+
     // listen for keydown events
     window.addEventListener("keydown", this.handleKeyPress);
   },
