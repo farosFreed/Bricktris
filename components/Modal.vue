@@ -9,8 +9,11 @@
         &#10006;
       </button>
       <h2 v-if="title">{{ title }}</h2>
-      <p>{{ text }}</p>
-      <button @click="completeTask">Complete Task</button>
+      <slot>
+        <p>{{ text }}</p>
+        <!-- todo add timer -->
+        <button @click="completeTask">Complete Task</button>
+      </slot>
     </div>
   </div>
 </template>

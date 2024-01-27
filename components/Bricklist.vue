@@ -3,13 +3,24 @@
     <li
       v-for="item in list"
       class="item"
-      :key="item.id"
+      :key="item.name"
       @click="$emit('toggleModal', item)"
     >
       <div :class="['tetromino', item.shape]"></div>
       {{ item.name }}
+      <button
+        @click="
+          (e) => {
+            e.stopPropagation();
+            $emit('removeListItem', item);
+          }
+        "
+      >
+        Remove
+      </button>
     </li>
   </ul>
+  <button @click="$emit('newListItem')">Add Item</button>
 </template>
 
 <script>
@@ -69,5 +80,15 @@ ul {
   background: url(images/T.svg) no-repeat center center;
   background-size: contain;
   filter: $T-tetromino-filter;
+}
+.tetromino.S {
+  background: url(images/S.svg) no-repeat center center;
+  background-size: contain;
+  filter: $S-tetromino-filter;
+}
+.tetromino.J {
+  background: url(images/J.svg) no-repeat center center;
+  background-size: contain;
+  filter: $J-tetromino-filter;
 }
 </style>

@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: "Keypad",
+  name: "MobileKeypad",
   data() {
     return {
       keyLeftEvent: new KeyboardEvent("keydown", { key: "ArrowLeft" }),

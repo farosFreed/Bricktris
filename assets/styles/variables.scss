@@ -13,6 +13,8 @@ $orange-soda: #fb5607;
 $hot-pink: #ff006e;
 $blue-violet: #8338ec;
 $azure: #3a86ff;
+$sky: #4cc9f0;
+$turquoise: #06d6a0;
 
 // layouts
 $spacer: 10px;
@@ -30,6 +32,8 @@ $L-tetromino-color: $orange-soda;
 $I-teromino-color: $hot-pink;
 $O-tetromino-color: $blue-violet;
 $T-tetromino-color: $azure;
+$J-tetromino-color: $sky;
+$S-tetromino-color: $turquoise;
 
 // colors for tetronimo filters palette 1
 // https://codepen.io/sosuke/pen/Pjoqqp
@@ -43,3 +47,7 @@ $O-tetromino-filter: invert(29%) sepia(50%) saturate(7499%) hue-rotate(257deg)
   brightness(95%) contrast(94%);
 $T-tetromino-filter: invert(71%) sepia(78%) saturate(6443%) hue-rotate(203deg)
   brightness(102%) contrast(101%);
+$J-tetromino-filter: invert(63%) sepia(87%) saturate(757%) hue-rotate(169deg)
+  brightness(102%) contrast(101%);
+$S-tetromino-filter: invert(74%) sepia(40%) saturate(6762%) hue-rotate(122deg)
+  brightness(103%) contrast(95%);

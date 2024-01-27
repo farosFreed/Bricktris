@@ -1,0 +1,55 @@
+<template>
+  <div>
+    <form @submit.prevent="submitForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" v-model="name" />
+
+      <label for="shape">Shape:</label>
+      <select id="shape" v-model="shape">
+        <option value="Z">random</option>
+        <option value="I">I</option>
+        <option value="J">J</option>
+        <option value="L">L</option>
+        <option value="O">O</option>
+        <option value="S">S</option>
+        <option value="T">T</option>
+        <option value="Z">Z</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "NewItemForm",
+  data() {
+    return {
+      name: "",
+      shape: "",
+    };
+  },
+  methods: {
+    async submitForm(e) {
+      e.preventDefault();
+      // handle random
+      if (this.shape === "random") {
+        const shapes = ["I", "J", "L", "O", "S", "T", "Z"];
+        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+      }
+      this.$emit("submitForm", {
+        name: this.name,
+        shape: this.shape,
+      });
+      // reset form
+      this.name = "";
+      this.shape = "";
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Add your custom styles here */
+</style>

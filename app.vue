@@ -9,13 +9,27 @@
           : 'Click the button to start the game'
       "
       :shape="modalData.shape ? modalData.shape : ''"
-      @closeModal="this.modalShow = !this.modalShow"
+      @closeModal="
+        () => {
+          this.modalShow = !this.modalShow;
+        }
+      "
       @spawnTetromino="(shape) => spawnTetromino(shape)"
-    ></Modal>
+    >
+      <NewItemForm
+        v-if="modalData == newItemData"
+        @submitForm="(item) => addListItem(item)"
+      />
+    </Modal>
     <h1>Bricktris</h1>
     <div class="twocol">
       <div class="leftcol">
-        <Bricklist :list="mockListData" @toggleModal="(i) => showModal(i)" />
+        <Bricklist
+          :list="listData"
+          @toggleModal="(i) => showModal(i)"
+          @newListItem="(i) => showModal(newItemData)"
+          @removeListItem="(i) => removeListItem(i)"
+        />
         <MobileKeypad @handleKeyPress="(e) => handleKeyPress(e)" />
         <button @click="clearGameboard">Clear Board</button>
       </div>
@@ -29,30 +43,79 @@
 <script>
 import isUserUsingMobile from "@/utils/detectMobile";
 
-const mockListData = [
-  { name: "cooking", alt: "Z tetra", shape: "Z" },
+const sampleListData = [
+  { name: "meal prep", alt: "Z tetra", shape: "Z" },
   {
-    name: "look for job",
+    name: "work or homework",
     alt: "L tetra",
     shape: "L",
   },
   {
-    name: "do laundry",
+    name: "wash and fold laundry",
     alt: "I tetra",
     shape: "I",
   },
   {
-    name: "do dishes",
+    name: "walk the dog",
     alt: "O tetra",
     shape: "O",
   },
   { name: "exercise", alt: "T tetra", shape: "T" },
 ];
 
+// move to utils file ???
+const tetrominos = {
+  I: [
+    [0, 0, 0, 0],
+    [1, 1, 1, 1],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ],
+  J: [
+    [1, 0, 0],
+    [1, 1, 1],
+    [0, 0, 0],
+  ],
+  L: [
+    [0, 0, 1],
+    [1, 1, 1],
+    [0, 0, 0],
+  ],
+  O: [
+    [1, 1],
+    [1, 1],
+  ],
+  S: [
+    [0, 1, 1],
+    [1, 1, 0],
+    [0, 0, 0],
+  ],
+  Z: [
+    [1, 1, 0],
+    [0, 1, 1],
+    [0, 0, 0],
+  ],
+  T: [
+    [0, 1, 0],
+    [1, 1, 1],
+    [0, 0, 0],
+  ],
+};
+// move to utils file ??? fix colors to reference css variables
+const colors = {
+  I: "#ff006e",
+  O: "#8338ec",
+  T: "#3a86ff",
+  S: "green",
+  Z: "#ffbe0b",
+  J: "blue",
+  L: "#fb5607",
+};
+
 export default {
   data() {
     return {
-      mockListData: mockListData,
+      listData: null,
       tetrominos: tetrominos,
       colors: colors,
       canvas: null,
@@ -65,16 +128,26 @@ export default {
       currentTetromino: null,
       count: 0, // animation frame counter
       animation: null, // track animation so we can toggle it
-      showMobileKeypad: false,
+      showMobileKeypad: false, // show mobile keypad if user is on mobile
+      newItemData: {
+        name: "new item",
+        alt: "I tetra",
+        shape: "I",
+      },
     };
   },
   watch: {
     playfield: {
       handler(newPlayfield) {
-        // Save playfield data to localStorage whenever it changes
         localStorage.setItem("playfield", JSON.stringify(newPlayfield));
       },
-      deep: true, // Watch for nested changes in the playfield data
+      deep: true,
+    },
+    listData: {
+      handler(newListData) {
+        localStorage.setItem("gameListData", JSON.stringify(newListData));
+      },
+      deep: true,
     },
   },
   methods: {
@@ -176,7 +249,7 @@ export default {
             // game over if piece has any part offscreen
             if (tetromino.row + row < 0) {
               // TO DO
-              console.log("game over");
+              alert("game over");
               // return showGameOver();
             }
             this.playfield[tetromino.row + row][tetromino.col + col] =
@@ -272,14 +345,29 @@ export default {
       this.modalData = item;
       this.modalShow = !this.modalShow;
     },
+    // item management
+    addListItem(item) {
+      // TODO TYPESCRIPT VALIDATION MINIMUM
+      this.listData.push(item);
+    },
+    removeListItem(item) {
+      const index = this.listData.indexOf(item);
+      this.listData.splice(index, 1);
+    },
   },
   mounted() {
     this.setupGameboard();
-    // if localStorage has playfield data, load it
+    // if localStorage has list & playfield data, load it
+    const listData = localStorage.getItem("gameListData");
     const playfield = localStorage.getItem("playfield");
-    if (playfield) {
+    if (playfield && listData) {
+      this.listData = JSON.parse(listData);
       this.playfield = JSON.parse(playfield);
+    } else {
+      // otherwise, use sample list
+      this.listData = sampleListData;
     }
+
     this.drawPlayfield();
     //check if mobile
     this.showMobileKeypad = isUserUsingMobile();
@@ -292,56 +380,6 @@ export default {
     // remove event listener before component is unmounted
     window.removeEventListener("keydown", this.handleKeyPress);
   },
-};
-
-// move to utils file ???
-const tetrominos = {
-  I: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  J: [
-    [1, 0, 0],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-  L: [
-    [0, 0, 1],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-  O: [
-    [1, 1],
-    [1, 1],
-  ],
-  S: [
-    [0, 1, 1],
-    [1, 1, 0],
-    [0, 0, 0],
-  ],
-  Z: [
-    [1, 1, 0],
-    [0, 1, 1],
-    [0, 0, 0],
-  ],
-  T: [
-    [0, 1, 0],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-};
-
-// move to utils file ??? fix colors to reference css variables
-const colors = {
-  I: "#ff006e",
-  O: "#8338ec",
-  T: "#3a86ff",
-  S: "green",
-  Z: "#ffbe0b",
-  J: "blue",
-  L: "#fb5607",
 };
 </script>
 
