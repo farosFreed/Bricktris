@@ -23,11 +23,11 @@
   <button @click="$emit('newListItem')">Add Item</button>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     list: {
-      type: Array,
+      type: Array<ListItem>,
       required: true,
     },
   },

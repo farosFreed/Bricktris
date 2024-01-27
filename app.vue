@@ -11,7 +11,7 @@
       :shape="modalData.shape ? modalData.shape : ''"
       @closeModal="
         () => {
-          this.modalShow = !this.modalShow;
+          modalShow = !modalShow;
         }
       "
       @spawnTetromino="(shape) => spawnTetromino(shape)"
@@ -40,27 +40,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import isUserUsingMobile from "@/utils/detectMobile";
 
 const sampleListData = [
-  { name: "meal prep", alt: "Z tetra", shape: "Z" },
+  { name: "meal prep", shape: "Z" },
   {
     name: "work or homework",
-    alt: "L tetra",
     shape: "L",
   },
   {
     name: "wash and fold laundry",
-    alt: "I tetra",
     shape: "I",
   },
   {
     name: "walk the dog",
-    alt: "O tetra",
     shape: "O",
   },
-  { name: "exercise", alt: "T tetra", shape: "T" },
+  { name: "exercise", shape: "T" },
 ];
 
 // move to utils file ???
@@ -115,25 +112,24 @@ const colors = {
 export default {
   data() {
     return {
-      listData: null,
+      listData: [] as ListItem[],
       tetrominos: tetrominos,
       colors: colors,
-      canvas: null,
+      canvas: null as HTMLElement | null,
       ctx: null, // canvas context
       grid: 32,
       tetrominoSequence: [], // not using? deprecate?
-      playfield: [],
+      playfield: [] as Array<Array<string>>,
       modalShow: false,
       modalData: {},
-      currentTetromino: null,
+      currentTetromino: null as Tetromino | null,
       count: 0, // animation frame counter
-      animation: null, // track animation so we can toggle it
+      animation: null as number | null, // track animation so we can toggle it
       showMobileKeypad: false, // show mobile keypad if user is on mobile
       newItemData: {
         name: "new item",
-        alt: "I tetra",
         shape: "I",
-      },
+      } as ListItem,
     };
   },
   watch: {
@@ -169,7 +165,7 @@ export default {
     },
     gameLoop() {
       this.animation = requestAnimationFrame(this.gameLoop);
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
       this.drawPlayfield();
       this.count++;
       // tetromino falls every 35 frames
@@ -259,7 +255,7 @@ export default {
       }
 
       // TO DO LINE CLEAR LOGIC
-      /* 
+      /*
       // check for line clears starting from the bottom and working our way up
       for (let row = playfield.length - 1; row >= 0; ) {
         if (playfield[row].every((cell) => !!cell)) {
@@ -341,12 +337,12 @@ export default {
       }
       return true;
     },
-    showModal(item) {
+    showModal(item: listItem) {
       this.modalData = item;
       this.modalShow = !this.modalShow;
     },
     // item management
-    addListItem(item) {
+    addListItem(item: listItem) {
       // TODO TYPESCRIPT VALIDATION MINIMUM
       this.listData.push(item);
     },
