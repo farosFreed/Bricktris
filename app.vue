@@ -3,11 +3,7 @@
     <Modal
       :show="modalShow"
       :title="modalData.name ? modalData.name : 'Welcome'"
-      :text="
-        modalData.description
-          ? modalData.description
-          : 'Click the button to start the game'
-      "
+      :text="modalData.description ? modalData.description : ''"
       :shape="modalData.shape ? modalData.shape : ''"
       @closeModal="
         () => {
@@ -21,7 +17,7 @@
         @submitForm="(item) => addListItem(item)"
       />
     </Modal>
-    <h1>Bricktris</h1>
+    <h3>Bricktris</h3>
     <div class="twocol">
       <div class="leftcol">
         <Bricklist
@@ -31,10 +27,15 @@
           @removeListItem="(i) => removeListItem(i)"
         />
         <MobileKeypad @handleKeyPress="(e) => handleKeyPress(e)" />
-        <button @click="clearGameboard">Clear Board</button>
+        <button @click="clearGameboard">Clear Game Board</button>
       </div>
       <div class="rightcol">
-        <canvas id="game" width="320" height="640" class="grid"></canvas>
+        <canvas
+          id="game"
+          :width="gameWidth"
+          :height="gameHeight"
+          class="grid"
+        ></canvas>
       </div>
     </div>
   </div>
@@ -42,6 +43,7 @@
 
 <script lang="ts">
 import isUserUsingMobile from "@/utils/detectMobile";
+import { tetrominos, colors } from "@/utils/tetrominos";
 
 const sampleListData = [
   { name: "meal prep", shape: "Z" },
@@ -60,55 +62,6 @@ const sampleListData = [
   { name: "exercise", shape: "T" },
 ];
 
-// move to utils file ???
-const tetrominos = {
-  I: [
-    [0, 0, 0, 0],
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  J: [
-    [1, 0, 0],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-  L: [
-    [0, 0, 1],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-  O: [
-    [1, 1],
-    [1, 1],
-  ],
-  S: [
-    [0, 1, 1],
-    [1, 1, 0],
-    [0, 0, 0],
-  ],
-  Z: [
-    [1, 1, 0],
-    [0, 1, 1],
-    [0, 0, 0],
-  ],
-  T: [
-    [0, 1, 0],
-    [1, 1, 1],
-    [0, 0, 0],
-  ],
-};
-// move to utils file ??? fix colors to reference css variables
-const colors = {
-  I: "#ff006e",
-  O: "#8338ec",
-  T: "#3a86ff",
-  S: "green",
-  Z: "#ffbe0b",
-  J: "blue",
-  L: "#fb5607",
-};
-
 export default {
   data() {
     return {
@@ -116,6 +69,9 @@ export default {
       tetrominos: tetrominos,
       colors: colors,
       canvas: null as HTMLElement | null,
+      windowWidth: window.innerWidth,
+      gameWidth: 0,
+      gameHeight: 0,
       ctx: null, // canvas context
       grid: 32,
       tetrominoSequence: [], // not using? deprecate?
@@ -144,6 +100,11 @@ export default {
         localStorage.setItem("gameListData", JSON.stringify(newListData));
       },
       deep: true,
+    },
+    windowWidth: {
+      handler(newWindowWidth) {
+        this.configPlayfield();
+      },
     },
   },
   methods: {
@@ -345,13 +306,28 @@ export default {
     addListItem(item: listItem) {
       // TODO TYPESCRIPT VALIDATION MINIMUM
       this.listData.push(item);
+      this.modalShow = !this.modalShow;
     },
     removeListItem(item) {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
     },
+    configPlayfield() {
+      // change grid size based on screen size
+      this.windowWidth = window.innerWidth;
+      if (this.windowWidth < 500) {
+        this.grid = 20;
+        this.gameWidth = 200;
+        this.gameHeight = 400;
+      } else {
+        this.grid = 32;
+        this.gameWidth = 320;
+        this.gameHeight = 640;
+      }
+    },
   },
   mounted() {
+    this.configPlayfield();
     this.setupGameboard();
     // if localStorage has list & playfield data, load it
     const listData = localStorage.getItem("gameListData");
@@ -365,16 +341,16 @@ export default {
     }
 
     this.drawPlayfield();
-    //check if mobile
     this.showMobileKeypad = isUserUsingMobile();
-    console.log("showMobileKeypad", this.showMobileKeypad);
 
-    // listen for keydown events
+    // listen for keydown & resize events
     window.addEventListener("keydown", this.handleKeyPress);
+    window.addEventListener("resize", this.configPlayfield);
   },
   beforeUnmount() {
     // remove event listener before component is unmounted
     window.removeEventListener("keydown", this.handleKeyPress);
+    window.removeEventListener("resize", this.configPlayfield);
   },
 };
 </script>
@@ -387,11 +363,21 @@ h1 {
   font-size: 3rem;
 }
 .twocol {
-  width: 98vw;
+  max-width: $max-width;
   margin: 0 auto;
   height: calc(100vh - 100px);
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 1.5fr;
+  .leftcol {
+    display: grid;
+    padding: $spacer;
+    align-content: space-between;
+  }
+  .rightcol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .grid {

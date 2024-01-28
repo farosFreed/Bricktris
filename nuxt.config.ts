@@ -4,4 +4,14 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  css: ["~/assets/styles/main.scss"],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/styles/variables.scss";',
+        },
+      },
+    },
+  },
 });

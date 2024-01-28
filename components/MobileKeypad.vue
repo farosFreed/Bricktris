@@ -36,9 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$button-size: 50px;
-$spacer: 10px;
-$border-radius: 5px;
+$button-size: 40px;
 .keypad {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -49,22 +47,23 @@ $border-radius: 5px;
 
 button {
   height: $button-size;
+  border: $button-border;
   border-radius: $border-radius;
 }
 
 .square-button {
-  background-color: lightgrey;
+  background-color: $button-background;
 }
 
 .circle-button {
   width: $button-size;
   justify-self: center;
-  background-color: red;
+  background-color: darken($button-background, 10%);
   border-radius: 50%;
 }
 
 .arrow-button {
   grid-column-start: span 3;
-  background-color: #ccc;
+  background-color: $button-background;
 }
 </style>

@@ -1,26 +1,30 @@
 <template>
-  <ul>
-    <li
-      v-for="item in list"
-      class="item"
-      :key="item.name"
-      @click="$emit('toggleModal', item)"
-    >
-      <div :class="['tetromino', item.shape]"></div>
-      {{ item.name }}
-      <button
-        @click="
-          (e) => {
-            e.stopPropagation();
-            $emit('removeListItem', item);
-          }
-        "
+  <div>
+    <ul>
+      <li
+        v-for="item in list"
+        class="item"
+        :key="item.name"
+        @click="$emit('toggleModal', item)"
       >
-        Remove
-      </button>
-    </li>
-  </ul>
-  <button @click="$emit('newListItem')">Add Item</button>
+        <div :class="['tetromino', item.shape]"></div>
+        {{ item.name }}
+        <button
+          @click="
+            (e) => {
+              e.stopPropagation();
+              $emit('removeListItem', item);
+            }
+          "
+        >
+          Remove
+        </button>
+      </li>
+    </ul>
+    <button class="addItemBtn primary-btn" @click="$emit('newListItem')">
+      Add Item
+    </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,7 +39,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/assets/styles/variables.scss";
 ul {
   list-style-type: none;
   padding: 0;
@@ -43,13 +46,19 @@ ul {
   li.item {
     padding: $spacer;
     margin-bottom: $spacer;
-    border: 1px solid black;
+    border: $button-border;
     border-radius: $border-radius;
-    background-color: lightgray;
+    background-color: $button-background;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+}
+.addItemBtn {
+  width: 100%;
+  border: $button-border;
+  border-radius: $border-radius;
+  margin-bottom: $spacer;
 }
 .tetromino {
   width: 24px;

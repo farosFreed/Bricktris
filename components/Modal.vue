@@ -12,7 +12,7 @@
       <slot>
         <p>{{ text }}</p>
         <!-- todo add timer -->
-        <button @click="completeTask">Complete Task</button>
+        <button class="primary-btn" @click="completeTask">Complete Task</button>
       </slot>
     </div>
   </div>
@@ -59,6 +59,7 @@ export default {
   height: 100vh;
   top: 0;
   left: 0;
+  z-index: 100;
   &.hidden {
     display: none;
   }
@@ -73,7 +74,7 @@ export default {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 80vw;
-    max-width: 600px;
+    max-width: $max-width;
     .close-button {
       position: absolute;
       top: 10px;
