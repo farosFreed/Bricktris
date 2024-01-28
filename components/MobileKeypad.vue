@@ -2,21 +2,27 @@
   <div class="keypad">
     <button
       class="square-button"
+      alt="move left"
       @click="$emit('handleKeyPress', keyLeftEvent)"
     >
-      &#8249;
+      <Icon name="carbon:arrow-left" />
     </button>
     <button class="circle-button" @click="$emit('handleKeyPress', keyUpEvent)">
-      &#8634;
+      <Icon name="carbon:rotate-360" />
     </button>
     <button
       class="square-button"
+      alt="rotate"
       @click="$emit('handleKeyPress', keyRightEvent)"
     >
-      &#8250;
+      <Icon name="carbon:arrow-right" />
     </button>
-    <button class="arrow-button" @click="$emit('handleKeyPress', keyDownEvent)">
-      &#8595;
+    <button
+      class="arrow-button"
+      alt="move right"
+      @click="$emit('handleKeyPress', keyDownEvent)"
+    >
+      <Icon name="carbon:arrow-down" />
     </button>
   </div>
 </template>

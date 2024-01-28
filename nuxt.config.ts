@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  modules: ["nuxt-icon"],
   css: ["~/assets/styles/main.scss"],
   vite: {
     css: {

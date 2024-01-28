@@ -214,23 +214,19 @@ export default {
           }
         }
       }
-
-      // TO DO LINE CLEAR LOGIC
-      /*
       // check for line clears starting from the bottom and working our way up
-      for (let row = playfield.length - 1; row >= 0; ) {
-        if (playfield[row].every((cell) => !!cell)) {
+      for (let row = this.playfield.length - 1; row >= 0; ) {
+        if (this.playfield[row].every((cell) => !!cell)) {
           // drop every row above this one
           for (let r = row; r >= 0; r--) {
-            for (let c = 0; c < playfield[r].length; c++) {
-              playfield[r][c] = playfield[r - 1][c];
+            for (let c = 0; c < this.playfield[r].length; c++) {
+              this.playfield[r][c] = this.playfield[r - 1][c];
             }
           }
         } else {
           row--;
         }
       }
-      */
       // stop animation & draw new piece as part of playfield
       cancelAnimationFrame(this.animation);
       this.drawPlayfield();
@@ -357,10 +353,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~/assets/styles/variables.scss";
-h1 {
+h3 {
   text-align: center;
   font-family: sans-serif;
-  font-size: 3rem;
 }
 .twocol {
   max-width: $max-width;

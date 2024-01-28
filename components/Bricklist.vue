@@ -10,6 +10,7 @@
         <div :class="['tetromino', item.shape]"></div>
         {{ item.name }}
         <button
+          class="removeItemBtn"
           @click="
             (e) => {
               e.stopPropagation();
@@ -17,12 +18,12 @@
             }
           "
         >
-          Remove
+          <Icon name="carbon:trash-can" />
         </button>
       </li>
     </ul>
     <button class="addItemBtn primary-btn" @click="$emit('newListItem')">
-      Add Item
+      <Icon name="carbon:add" /> Add Item
     </button>
   </div>
 </template>
@@ -59,6 +60,18 @@ ul {
   border: $button-border;
   border-radius: $border-radius;
   margin-bottom: $spacer;
+}
+.removeItemBtn {
+  border: none;
+  background: none;
+  padding: 5px 5px 6px 5px;
+  border-radius: $border-radius;
+  margin: 0;
+  cursor: pointer;
+  &:hover {
+    background: $primary-button-background;
+    color: $primary-button-color;
+  }
 }
 .tetromino {
   width: 24px;

@@ -6,13 +6,15 @@
         aria-label="close modal"
         @click="$emit('closeModal')"
       >
-        &#10006;
+        <Icon name="carbon:close-outline" />
       </button>
       <h2 v-if="title">{{ title }}</h2>
       <slot>
         <p>{{ text }}</p>
         <!-- todo add timer -->
-        <button class="primary-btn" @click="completeTask">Complete Task</button>
+        <button class="primary-btn" @click="completeTask">
+          <Icon name="carbon:checkmark" /> Complete Task
+        </button>
       </slot>
     </div>
   </div>
