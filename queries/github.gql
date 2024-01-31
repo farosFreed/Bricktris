@@ -1,0 +1,19 @@
+query GetCommits {
+  repository(owner: "farosFreed", name: "Bricktris") {
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          history(first: 1) {
+            edges {
+              node {
+                ... on Commit {
+                  committedDate
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

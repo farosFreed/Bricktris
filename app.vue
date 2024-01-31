@@ -17,7 +17,10 @@
         @submitForm="(item) => addListItem(item)"
       />
     </Modal>
-    <h3>Bricktris</h3>
+    <div class="headerbar">
+      <h3>Bricktris</h3>
+      <span class="score">Score: {{ linesCleared }}</span>
+    </div>
     <div class="twocol">
       <div class="leftcol">
         <Bricklist
@@ -27,7 +30,10 @@
           @removeListItem="(i) => removeListItem(i)"
         />
         <MobileKeypad @handleKeyPress="(e) => handleKeyPress(e)" />
-        <button @click="clearGameboard">Clear Game Board</button>
+        <div>
+          <Query />
+          <button @click="clearGameboard">Clear Game Board</button>
+        </div>
       </div>
       <div class="rightcol">
         <canvas
@@ -76,6 +82,7 @@ export default {
       grid: 32,
       tetrominoSequence: [], // not using? deprecate?
       playfield: [] as Array<Array<string>>,
+      linesCleared: 0,
       modalShow: false,
       modalData: {},
       currentTetromino: null as Tetromino | null,
@@ -222,6 +229,7 @@ export default {
             for (let c = 0; c < this.playfield[r].length; c++) {
               this.playfield[r][c] = this.playfield[r - 1][c];
             }
+            this.linesCleared++; // TODO troubleshoot score
           }
         } else {
           row--;
@@ -352,10 +360,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/assets/styles/variables.scss";
-h3 {
-  text-align: center;
-  font-family: sans-serif;
+.headerbar {
+  display: flex;
+  max-width: $max-width;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    font-family: sans-serif;
+    display: inline-block;
+    padding-left: $spacer;
+  }
+  .score {
+    font-family: sans-serif;
+    display: inline-block;
+    margin-left: auto;
+    padding-right: $spacer;
+  }
 }
 .twocol {
   max-width: $max-width;
