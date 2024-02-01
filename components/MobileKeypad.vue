@@ -27,16 +27,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "MobileKeypad",
   data() {
     return {
-      keyLeftEvent: new KeyboardEvent("keydown", { key: "ArrowLeft" }),
-      keyRightEvent: new KeyboardEvent("keydown", { key: "ArrowRight" }),
-      keyDownEvent: new KeyboardEvent("keydown", { key: "ArrowDown" }),
-      keyUpEvent: new KeyboardEvent("keydown", { key: "ArrowUp" }),
+      keyLeftEvent: null as KeyboardEvent | null,
+      keyRightEvent: null as KeyboardEvent | null,
+      keyDownEvent: null as KeyboardEvent | null,
+      keyUpEvent: null as KeyboardEvent | null,
     };
+  },
+  mounted() {
+    this.keyLeftEvent = new KeyboardEvent("keydown", { key: "ArrowLeft" });
+    this.keyRightEvent = new KeyboardEvent("keydown", { key: "ArrowRight" });
+    this.keyDownEvent = new KeyboardEvent("keydown", { key: "ArrowDown" });
+    this.keyUpEvent = new KeyboardEvent("keydown", { key: "ArrowUp" });
   },
 };
 </script>

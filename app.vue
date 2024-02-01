@@ -75,7 +75,7 @@ export default {
       tetrominos: tetrominos,
       colors: colors,
       canvas: null as HTMLElement | null,
-      windowWidth: window.innerWidth,
+      windowWidth: 0,
       gameWidth: 0,
       gameHeight: 0,
       ctx: null, // canvas context
@@ -137,7 +137,7 @@ export default {
       this.drawPlayfield();
       this.count++;
       // tetromino falls every 35 frames
-      if (this.count > 35) {
+      if (this.count > 35 && this.currentTetromino) {
         this.currentTetromino.row++;
         this.count = 0;
 
@@ -157,11 +157,15 @@ export default {
       this.drawTetromino();
     },
     drawPlayfield() {
+      console.log("drawPlayfield", this.playfield);
+      console.log("ctx", this.ctx);
       for (let row = 0; row < this.playfield.length; row++) {
         for (let col = 0; col < this.playfield[row].length; col++) {
           if (this.playfield[row][col]) {
             const name = this.playfield[row][col];
+            console.log("name", name);
             this.ctx.fillStyle = colors[name];
+            console.log("fillStyle", this.ctx.fillStyle);
             this.ctx.fillRect(
               col * this.grid,
               row * this.grid,
@@ -176,7 +180,7 @@ export default {
      * Draws the initial tetromino on the canvas.
      * @param {string} shape - The letter corresponding to the tetromino shape to draw.
      **/
-    spawnTetromino(shape) {
+    spawnTetromino(shape: string) {
       // create tetromino object to track name, position, and rotation of drawing
       this.currentTetromino = {
         name: shape,
@@ -190,6 +194,8 @@ export default {
     },
     drawTetromino() {
       const tetromino = this.currentTetromino;
+      if (!tetromino) return;
+
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
@@ -241,7 +247,7 @@ export default {
       this.currentTetromino = null;
     },
     // tetromino movement
-    handleKeyPress(e) {
+    handleKeyPress(e: KeyboardEvent) {
       // if there is no current tetromino, do nothing
       if (this.currentTetromino === null) return;
 
@@ -302,17 +308,17 @@ export default {
       }
       return true;
     },
-    showModal(item: listItem) {
+    showModal(item: ListItem) {
       this.modalData = item;
       this.modalShow = !this.modalShow;
     },
     // item management
-    addListItem(item: listItem) {
+    addListItem(item: ListItem) {
       // TODO TYPESCRIPT VALIDATION MINIMUM
       this.listData.push(item);
       this.modalShow = !this.modalShow;
     },
-    removeListItem(item) {
+    removeListItem(item: ListItem) {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
     },
@@ -343,9 +349,10 @@ export default {
       // otherwise, use sample list
       this.listData = sampleListData;
     }
-
-    this.drawPlayfield();
     this.showMobileKeypad = isUserUsingMobile();
+    this.$nextTick(() => {
+      this.drawPlayfield();
+    });
 
     // listen for keydown & resize events
     window.addEventListener("keydown", this.handleKeyPress);
