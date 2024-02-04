@@ -46,6 +46,7 @@
       <div class="rightcol">
         <canvas
           id="game"
+          ref="gameboard"
           :width="gameWidth"
           :height="gameHeight"
           class="grid"
@@ -143,14 +144,9 @@ export default {
       }
     },
     clearGameboard() {
-      // TODO modify to use ref and remove this?
-      this.canvas = document.getElementById("game");
-      this.ctx = this.canvas.getContext("2d");
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.setupGameboard();
       this.drawPlayfield();
-      // TODO remove?
-      this.listData = sampleListData;
     },
     gameLoop() {
       this.isPlaying = true;
@@ -354,10 +350,6 @@ export default {
         this.gameWidth = 320;
         this.gameHeight = 640;
       }
-      // TODO modify to use ref?
-      this.canvas = document.getElementById("game");
-      this.ctx = this.canvas.getContext("2d");
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
   },
   beforeMount() {
@@ -375,6 +367,9 @@ export default {
     this.isLoading = false;
   },
   mounted() {
+    this.canvas = this.$refs.gameboard as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.configPlayfield();
     this.showMobileKeypad = isUserUsingMobile();
 
