@@ -41,8 +41,8 @@ export const colors = {
   I: "#ff006e",
   O: "#8338ec",
   T: "#3a86ff",
-  S: "green",
+  S: "#06d6a0",
   Z: "#ffbe0b",
-  J: "blue",
+  J: "#4cc9f0",
   L: "#fb5607",
 };

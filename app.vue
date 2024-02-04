@@ -231,10 +231,9 @@ export default {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
             // game over if piece has any part offscreen
-            if (tetromino.row + row < 0) {
-              // TO DO
-              alert("game over");
-              // return showGameOver();
+            if (tetromino.row - row < 0) {
+              // TO DO put into game over function
+              this.showGameOver();
             }
             this.playfield[tetromino.row + row][tetromino.col + col] =
               tetromino.name;
@@ -249,7 +248,7 @@ export default {
             for (let c = 0; c < this.playfield[r].length; c++) {
               this.playfield[r][c] = this.playfield[r - 1][c];
             }
-            this.linesCleared++; // TODO troubleshoot score
+            this.linesCleared++;
           }
         } else {
           row--;
@@ -260,6 +259,16 @@ export default {
       this.isPlaying = false;
       this.drawPlayfield();
       this.currentTetromino = null;
+    },
+    showGameOver() {
+      this.isPlaying = false;
+      this.modalData = {
+        name: "Game Over",
+        description:
+          "Your game is over. Close this message and click clear board to play again!",
+        shape: "none",
+      };
+      this.modalShow = !this.modalShow;
     },
     // tetromino movement
     handleKeyPress(e: KeyboardEvent) {
@@ -329,7 +338,6 @@ export default {
     },
     // item management
     addListItem(item: ListItem) {
-      // TODO TYPESCRIPT VALIDATION MINIMUM
       this.listData.push(item);
       this.modalShow = !this.modalShow;
     },

@@ -12,7 +12,11 @@
       <slot>
         <p>{{ text }}</p>
         <!-- todo add timer -->
-        <button class="primary-btn" @click="completeTask">
+        <button
+          v-if="shape !== 'none'"
+          class="primary-btn"
+          @click="completeTask"
+        >
           <Icon name="carbon:checkmark" /> Complete Task
         </button>
       </slot>

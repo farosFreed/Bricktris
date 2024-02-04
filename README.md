@@ -4,9 +4,8 @@ Built with Nuxt
 
 To do list:
 
-- Clear lines on drop + keep count of cleared lines during currentsession (gameplay)
-- Move tetromino stuff to utils file
-- More Typescript
+- Do something with graphQL query component
+- Add timer to item to-do modal?
 - Jest Tests
 
 ## Setup
