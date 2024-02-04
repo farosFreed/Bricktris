@@ -2,6 +2,7 @@
 declare global {
   interface ListItem {
     name: string;
+    description?: string;
     shape: string;
   }
 

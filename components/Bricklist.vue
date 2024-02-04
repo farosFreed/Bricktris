@@ -1,30 +1,32 @@
 <template>
-  <div>
-    <ul>
-      <li
-        v-for="item in list"
-        class="item"
-        :key="item.name"
-        @click="$emit('toggleModal', item)"
-      >
-        <div :class="['tetromino', item.shape]"></div>
-        {{ item.name }}
-        <button
-          class="removeItemBtn"
-          @click="
-            (e) => {
-              e.stopPropagation();
-              $emit('removeListItem', item);
-            }
-          "
+  <div :class="['bricklist', !collapse ? 'show' : '']">
+    <div class="animation-wrapper">
+      <ul>
+        <li
+          v-for="item in list"
+          class="item"
+          :key="item.name"
+          @click="$emit('toggleModal', item)"
         >
-          <Icon name="carbon:trash-can" />
-        </button>
-      </li>
-    </ul>
-    <button class="addItemBtn primary-btn" @click="$emit('newListItem')">
-      <Icon name="carbon:add" /> Add Item
-    </button>
+          <div :class="['tetromino', item.shape]"></div>
+          {{ item.name }}
+          <button
+            class="removeItemBtn"
+            @click="
+              (e) => {
+                e.stopPropagation();
+                $emit('removeListItem', item);
+              }
+            "
+          >
+            <Icon name="carbon:trash-can" />
+          </button>
+        </li>
+      </ul>
+      <button class="addItemBtn primary-btn" @click="$emit('newListItem')">
+        <Icon name="carbon:add" /> Add Item
+      </button>
+    </div>
   </div>
 </template>
 
@@ -35,30 +37,60 @@ export default {
       type: Array<ListItem>,
       required: true,
     },
+    collapse: {
+      type: Boolean,
+      required: true,
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// animation trick without set height for mobile UIs with limit vertical space
+// https://keithjgrant.com/posts/2023/04/transitioning-to-height-auto/
+@media (max-width: $max-width) and (orientation: portrait) {
+  .bricklist {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 2s ease-out;
+    max-width: 300px;
+    margin: 0 auto;
+    &.show {
+      grid-template-rows: 1fr;
+    }
+    .animation-wrapper {
+      overflow: hidden;
+    }
+  }
+}
+
 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  border: $button-border;
+  border-radius: $border-radius $border-radius 0 0;
   li.item {
     padding: $spacer;
-    margin-bottom: $spacer;
-    border: $button-border;
-    border-radius: $border-radius;
     background-color: $button-background;
+    color: $button-text-color;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &:first-child {
+      border-radius: $border-radius $border-radius 0 0;
+    }
+    &:not(:last-child) {
+      border-bottom: $button-border;
+      border-color: $button-border-color;
+    }
   }
 }
 .addItemBtn {
   width: 100%;
   border: $button-border;
-  border-radius: $border-radius;
+  border-radius: 0 0 $border-radius $border-radius;
+  border-top: none;
   margin-bottom: $spacer;
 }
 .removeItemBtn {

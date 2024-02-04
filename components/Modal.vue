@@ -81,6 +81,7 @@ export default {
       position: absolute;
       top: 10px;
       right: 10px;
+      color: $button-border-color;
       background: none;
       border: none;
       font-size: 1.5rem;

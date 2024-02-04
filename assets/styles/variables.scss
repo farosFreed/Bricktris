@@ -1,6 +1,10 @@
-// colors
-// ui
-$light-grey: #eee;
+// COLORS
+// nuetrals
+$lightest-bluegrey: #eaeaf8;
+$light-bluegrey: #a0a3af;
+$mid-bluegrey: #6e7a8a;
+$dark-bluegrey: #2b424a;
+$darkest-bluegrey: #13333e;
 // palette 1 - https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
 $charcoal: #264653;
 $persian-green: #2a9d8f;
@@ -16,17 +20,20 @@ $azure: #3a86ff;
 $sky: #4cc9f0;
 $turquoise: #06d6a0;
 
+// SIZES
 // layouts
 $spacer: 10px;
 $border-radius: 5px;
-$max-width: 600px;
-
+$max-width: 575.98px;
 // game
 $grid-size: 32px;
 
+//CONFIG
 // config UI
-$button-background: $light-grey;
-$button-border: 1px solid black;
+$button-background: $lightest-bluegrey;
+$button-border-color: $mid-bluegrey;
+$button-border: 1px solid $button-border-color;
+$button-text-color: $dark-bluegrey;
 $primary-button-background: $persian-green;
 $primary-button-color: white;
 

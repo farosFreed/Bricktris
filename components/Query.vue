@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="query-content">
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error }}</div>
     <div v-else>
@@ -50,3 +50,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.query-content {
+  @media (max-width: $max-width) {
+    display: none;
+  }
+}
+</style>

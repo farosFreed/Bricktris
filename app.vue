@@ -1,5 +1,5 @@
 <template>
-  <div class="apptheme">
+  <div v-if="!isLoading" class="apptheme">
     <Modal
       :show="modalShow"
       :title="modalData.name ? modalData.name : 'Welcome'"
@@ -19,21 +19,27 @@
     </Modal>
     <div class="headerbar">
       <h3>Bricktris</h3>
-      <span class="score">Score: {{ linesCleared }}</span>
+      <span class="score">score: {{ linesCleared }}</span>
     </div>
     <div class="twocol">
       <div class="leftcol">
         <Bricklist
           :list="listData"
+          :collapse="isPlaying"
           @toggleModal="(i) => showModal(i)"
           @newListItem="(i) => showModal(newItemData)"
           @removeListItem="(i) => removeListItem(i)"
         />
-        <MobileKeypad @handleKeyPress="(e) => handleKeyPress(e)" />
         <div>
           <Query />
-          <button @click="clearGameboard">Clear Game Board</button>
+          <button class="small" @click="clearGameboard">
+            Clear Game Board
+          </button>
         </div>
+        <MobileKeypad
+          @handleKeyPress="(e) => handleKeyPress(e)"
+          :width="gameWidth"
+        />
       </div>
       <div class="rightcol">
         <canvas
@@ -81,10 +87,16 @@ export default {
       ctx: null, // canvas context
       grid: 32,
       tetrominoSequence: [], // not using? deprecate?
-      playfield: [] as Array<Array<string>>,
+      playfield: [] as Array<Array<string | number>>,
+      isPlaying: false,
+      isLoading: true,
       linesCleared: 0,
       modalShow: false,
-      modalData: {},
+      modalData: {
+        name: "",
+        description: "",
+        shape: "",
+      } as ListItem,
       currentTetromino: null as Tetromino | null,
       count: 0, // animation frame counter
       animation: null as number | null, // track animation so we can toggle it
@@ -115,10 +127,12 @@ export default {
     },
   },
   methods: {
+    // sets up the playfield grid data model
     setupGameboard() {
-      this.canvas = document.getElementById("game");
-      this.ctx = this.canvas.getContext("2d");
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // TODO modify to use ref?
+      // this.canvas = document.getElementById("game");
+      // this.ctx = this.canvas.getContext("2d");
+      // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // create playfield
       for (let row = -2; row < 20; row++) {
         this.playfield[row] = [];
@@ -132,6 +146,7 @@ export default {
       this.drawPlayfield();
     },
     gameLoop() {
+      this.isPlaying = true;
       this.animation = requestAnimationFrame(this.gameLoop);
       this.ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
       this.drawPlayfield();
@@ -157,16 +172,12 @@ export default {
       this.drawTetromino();
     },
     drawPlayfield() {
-      console.log("drawPlayfield", this.playfield);
-      console.log("ctx", this.ctx);
       for (let row = 0; row < this.playfield.length; row++) {
         for (let col = 0; col < this.playfield[row].length; col++) {
           if (this.playfield[row][col]) {
             const name = this.playfield[row][col];
-            console.log("name", name);
-            this.ctx.fillStyle = colors[name];
-            console.log("fillStyle", this.ctx.fillStyle);
-            this.ctx.fillRect(
+            this.ctx!.fillStyle = colors[name];
+            this.ctx!.fillRect(
               col * this.grid,
               row * this.grid,
               this.grid - 1,
@@ -242,7 +253,8 @@ export default {
         }
       }
       // stop animation & draw new piece as part of playfield
-      cancelAnimationFrame(this.animation);
+      cancelAnimationFrame(this.animation as number);
+      this.isPlaying = false;
       this.drawPlayfield();
       this.currentTetromino = null;
     },
@@ -290,7 +302,7 @@ export default {
       return result;
     },
     // check to see if the new matrix/row/col is valid
-    isValidMove(matrix, cellRow, cellCol) {
+    isValidMove(matrix: number[][], cellRow: number, cellCol: number) {
       for (let row = 0; row < matrix.length; row++) {
         for (let col = 0; col < matrix[row].length; col++) {
           if (
@@ -322,6 +334,7 @@ export default {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
     },
+    // setup playfield visual view
     configPlayfield() {
       // change grid size based on screen size
       this.windowWidth = window.innerWidth;
@@ -334,10 +347,13 @@ export default {
         this.gameWidth = 320;
         this.gameHeight = 640;
       }
+      // TODO modify to use ref?
+      this.canvas = document.getElementById("game");
+      this.ctx = this.canvas.getContext("2d");
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
   },
-  mounted() {
-    this.configPlayfield();
+  beforeMount() {
     this.setupGameboard();
     // if localStorage has list & playfield data, load it
     const listData = localStorage.getItem("gameListData");
@@ -350,6 +366,11 @@ export default {
       this.listData = sampleListData;
     }
     this.showMobileKeypad = isUserUsingMobile();
+    this.isLoading = false;
+  },
+  mounted() {
+    this.configPlayfield();
+
     this.$nextTick(() => {
       this.drawPlayfield();
     });
@@ -374,40 +395,24 @@ export default {
   justify-content: center;
   align-items: center;
   h3 {
-    font-family: sans-serif;
     display: inline-block;
     padding-left: $spacer;
   }
   .score {
-    font-family: sans-serif;
     display: inline-block;
     margin-left: auto;
     padding-right: $spacer;
   }
 }
-.twocol {
-  max-width: $max-width;
-  margin: 0 auto;
-  height: calc(100vh - 100px);
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  .leftcol {
-    display: grid;
-    padding: $spacer;
-    align-content: space-between;
-  }
-  .rightcol {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
 .grid {
-  border: 1px solid #333;
+  border: 1px solid $button-border-color;
   background-size: $grid-size $grid-size;
   background-position-x: calc($grid-size/2);
   background-position-y: calc($grid-size/2);
-  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+  background-image: radial-gradient(
+    circle,
+    $button-border-color 1px,
+    rgba(0, 0, 0, 0) 1px
+  );
 }
 </style>

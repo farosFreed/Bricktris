@@ -1,5 +1,5 @@
 <template>
-  <div class="keypad">
+  <div class="keypad" :style="{ width: width + 'px' }">
     <button
       class="square-button"
       alt="move left"
@@ -30,6 +30,11 @@
 <script lang="ts">
 export default {
   name: "MobileKeypad",
+  props: {
+    width: {
+      type: Number,
+    },
+  },
   data() {
     return {
       keyLeftEvent: null as KeyboardEvent | null,
@@ -54,7 +59,7 @@ $button-size: 40px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   grid-row-gap: $spacer;
-  margin-bottom: $spacer;
+  margin: $spacer auto;
 }
 
 button {

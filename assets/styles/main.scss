@@ -1,3 +1,49 @@
+@import "variables.scss";
+@font-face {
+  font-family: "FiraSans";
+  src: url(/fonts/firasans/FiraSans-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "PixelifySans";
+  src: url(/fonts/pixelifysans/static/PixelifySans-Regular.ttf)
+    format("truetype");
+}
+
+body,
+html,
+button {
+  font-family: "FiraSans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.score {
+  font-family: "PixelifySans", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+button {
+  background-color: $button-background;
+  border: $button-border;
+  border-radius: $border-radius;
+  padding: $spacer;
+  font-size: 1rem;
+  color: $button-text-color;
+  cursor: pointer;
+  &:hover {
+    background-color: darken($button-background, 10%);
+  }
+  &.small {
+    padding: calc($spacer/2);
+    font-size: 0.8rem;
+  }
+}
+
 .primary-btn {
   background-color: $primary-button-background;
   color: white;
@@ -8,5 +54,30 @@
   cursor: pointer;
   &:hover {
     background-color: darken($primary-button-background, 10%);
+  }
+}
+
+.twocol {
+  margin: 0 auto;
+  height: calc(100vh - 100px);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  .leftcol {
+    display: grid;
+    padding: 0 $spacer;
+    align-content: space-between;
+    text-align: center;
+  }
+  .rightcol {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  @media (max-width: $max-width) and (orientation: portrait) {
+    max-width: $max-width;
+    grid-template-columns: 1fr;
+    .leftcol {
+      padding: 0;
+    }
   }
 }
