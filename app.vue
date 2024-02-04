@@ -18,7 +18,8 @@
       />
     </Modal>
     <div class="headerbar">
-      <h3>Bricktris</h3>
+      <h2>Bricktris</h2>
+      |
       <span class="score">score: {{ linesCleared }}</span>
     </div>
     <div class="twocol">
@@ -37,6 +38,7 @@
           </button>
         </div>
         <MobileKeypad
+          v-if="showMobileKeypad"
           @handleKeyPress="(e) => handleKeyPress(e)"
           :width="gameWidth"
         />
@@ -71,7 +73,10 @@ const sampleListData = [
     name: "walk the dog",
     shape: "O",
   },
-  { name: "exercise", shape: "T" },
+  {
+    name: "exercise: including 25 sit-ups x3, 25 pushups x3, 30sec planking x3",
+    shape: "T",
+  },
 ];
 
 export default {
@@ -129,10 +134,6 @@ export default {
   methods: {
     // sets up the playfield grid data model
     setupGameboard() {
-      // TODO modify to use ref?
-      // this.canvas = document.getElementById("game");
-      // this.ctx = this.canvas.getContext("2d");
-      // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // create playfield
       for (let row = -2; row < 20; row++) {
         this.playfield[row] = [];
@@ -142,8 +143,14 @@ export default {
       }
     },
     clearGameboard() {
+      // TODO modify to use ref and remove this?
+      this.canvas = document.getElementById("game");
+      this.ctx = this.canvas.getContext("2d");
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.setupGameboard();
       this.drawPlayfield();
+      // TODO remove?
+      this.listData = sampleListData;
     },
     gameLoop() {
       this.isPlaying = true;
@@ -365,11 +372,11 @@ export default {
       // otherwise, use sample list
       this.listData = sampleListData;
     }
-    this.showMobileKeypad = isUserUsingMobile();
     this.isLoading = false;
   },
   mounted() {
     this.configPlayfield();
+    this.showMobileKeypad = isUserUsingMobile();
 
     this.$nextTick(() => {
       this.drawPlayfield();
@@ -389,19 +396,16 @@ export default {
 
 <style lang="scss" scoped>
 .headerbar {
-  display: flex;
-  max-width: $max-width;
   margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  h3 {
+  text-align: center;
+  h2 {
     display: inline-block;
-    padding-left: $spacer;
+    padding: $spacer;
   }
   .score {
     display: inline-block;
     margin-left: auto;
-    padding-right: $spacer;
+    padding: $spacer;
   }
 }
 .grid {

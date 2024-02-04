@@ -52,8 +52,7 @@ export default {
   .bricklist {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 2s ease-out;
-    max-width: 300px;
+    transition: grid-template-rows 0.25s ease-out;
     margin: 0 auto;
     &.show {
       grid-template-rows: 1fr;
@@ -64,6 +63,9 @@ export default {
   }
 }
 
+.bricklist {
+  max-width: 350px;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -108,6 +110,7 @@ ul {
 .tetromino {
   width: 24px;
   height: 24px;
+  min-width: 24px; //prevent shrinking icon with lots of content
 }
 .tetromino.Z {
   background: url(/images/Z.svg) no-repeat center center;

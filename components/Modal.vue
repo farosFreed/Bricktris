@@ -79,8 +79,8 @@ export default {
     max-width: $max-width;
     .close-button {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0px;
+      right: 0px;
       color: $button-border-color;
       background: none;
       border: none;

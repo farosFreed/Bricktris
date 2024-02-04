@@ -12,8 +12,11 @@
 
 body,
 html,
-button {
+div,
+button,
+label {
   font-family: "FiraSans", sans-serif;
+  color: $text-color;
 }
 
 h1,
@@ -61,23 +64,26 @@ button {
   margin: 0 auto;
   height: calc(100vh - 100px);
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr;
   .leftcol {
     display: grid;
     padding: 0 $spacer;
     align-content: space-between;
     text-align: center;
+    justify-content: right;
   }
   .rightcol {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: flex-start;
   }
   @media (max-width: $max-width) and (orientation: portrait) {
     max-width: $max-width;
     grid-template-columns: 1fr;
-    .leftcol {
+    .leftcol,
+    .rightcol {
       padding: 0;
+      justify-content: center;
     }
   }
 }
