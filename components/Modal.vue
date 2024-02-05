@@ -11,7 +11,7 @@
       <h2 v-if="title">{{ title }}</h2>
       <slot>
         <p>{{ text }}</p>
-        <!-- todo add timer -->
+        <Timer ref="timer" />
         <button
           v-if="shape !== 'none'"
           class="primary-btn"
@@ -47,7 +47,10 @@ export default {
   },
   methods: {
     completeTask() {
-      // spawn shape if there is one
+      // stop timer & reset to default time
+      this.$refs.timer.pauseTimer();
+      this.$refs.timer.time = 1200;
+      // spawn teromino on game board
       if (this.shape) {
         this.$emit("spawnTetromino", this.shape);
       }
