@@ -1,4 +1,4 @@
-import { _ as _export_sfc, d as useAppConfig, e as resolveIconName } from '../server.mjs';
+import { _ as _export_sfc, b as useAppConfig, d as resolveIconName } from '../server.mjs';
 import { useSSRContext, defineComponent, computed, mergeProps } from 'vue';
 import { ssrRenderAttrs } from 'vue/server-renderer';
 import '../../nitro/node-server.mjs';
@@ -19,7 +19,6 @@ import '@wry/equality';
 import '@wry/trie';
 import '@iconify/vue/dist/offline';
 import '@iconify/vue';
-import 'graphql-tag';
 
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "IconCSS",
@@ -89,4 +88,4 @@ _sfc_main.setup = (props, ctx) => {
 const IconCSS = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-41e8d397"]]);
 
 export { IconCSS as default };
-//# sourceMappingURL=IconCSS-hr9tjs2O.mjs.map
+//# sourceMappingURL=IconCSS-X6ZnKOhW.mjs.map

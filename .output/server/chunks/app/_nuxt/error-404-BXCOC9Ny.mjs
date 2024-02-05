@@ -1,6 +1,6 @@
 import { mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext, defineComponent, computed, ref, h, resolveComponent } from 'vue';
-import { l as hasProtocol, j as joinURL, p as parseURL, z as parseQuery, I as withTrailingSlash, J as withoutTrailingSlash } from '../../nitro/node-server.mjs';
-import { _ as _export_sfc, u as useRouter, n as nuxtLinkDefaults, a as useRuntimeConfig, b as navigateTo } from '../server.mjs';
+import { l as hasProtocol, j as joinURL, p as parseURL, y as parseQuery, H as withTrailingSlash, I as withoutTrailingSlash } from '../../nitro/node-server.mjs';
+import { _ as _export_sfc, u as useRouter, a as useRuntimeConfig, n as navigateTo } from '../server.mjs';
 import { u as useHead } from './index-tbNGurtz.mjs';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import 'node:http';
@@ -20,8 +20,8 @@ import '@wry/equality';
 import '@wry/trie';
 import '@iconify/vue/dist/offline';
 import '@iconify/vue';
-import 'graphql-tag';
 
+const nuxtLinkDefaults = { "componentName": "NuxtLink" };
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
 // @__NO_SIDE_EFFECTS__
@@ -295,4 +295,4 @@ _sfc_main.setup = (props, ctx) => {
 const error404 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ccd3db62"]]);
 
 export { error404 as default };
-//# sourceMappingURL=error-404-KFuVnvDH.mjs.map
+//# sourceMappingURL=error-404-BXCOC9Ny.mjs.map

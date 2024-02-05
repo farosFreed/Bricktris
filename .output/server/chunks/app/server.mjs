@@ -1,5 +1,5 @@
-import { version as version$1, unref, inject, defineAsyncComponent, ref, useSSRContext, hasInjectionContext, getCurrentInstance, defineComponent, watch, computed, withAsyncContext, mergeProps, createVNode, resolveDynamicComponent, createApp, effectScope, reactive, toRef, isRef, provide, onErrorCaptured, onServerPrefetch, h, isReadonly, shallowRef, isShallow, isReactive, toRaw, withCtx, openBlock, createBlock, createCommentVNode } from 'vue';
-import { d as useRuntimeConfig$1, $ as $fetch, w as withQuery, l as hasProtocol, p as parseURL, m as isScriptProtocol, j as joinURL, h as createError$1, n as klona, o as sanitizeStatusCode, q as defuFn, r as createHooks, t as hash, v as isEqual, x as stringifyParsedURL, y as stringifyQuery, z as parseQuery, A as getRequestHeaders, B as parse, C as getRequestHeader, D as destr, E as isEqual$1, F as setCookie, G as getCookie, H as deleteCookie } from '../nitro/node-server.mjs';
+import { version as version$1, unref, inject, defineAsyncComponent, ref, useSSRContext, hasInjectionContext, getCurrentInstance, defineComponent, watch, computed, withAsyncContext, mergeProps, createVNode, resolveDynamicComponent, createApp, effectScope, reactive, toRef, isRef, provide, onErrorCaptured, onServerPrefetch, h, isReadonly, isShallow, isReactive, toRaw, withCtx, openBlock, createBlock, createCommentVNode } from 'vue';
+import { d as useRuntimeConfig$1, $ as $fetch, w as withQuery, l as hasProtocol, p as parseURL, m as isScriptProtocol, j as joinURL, h as createError$1, n as klona, o as sanitizeStatusCode, q as defuFn, r as createHooks, t as isEqual, v as stringifyParsedURL, x as stringifyQuery, y as parseQuery, z as getRequestHeaders, A as parse, B as getRequestHeader, C as destr, D as isEqual$1, E as setCookie, F as getCookie, G as deleteCookie } from '../nitro/node-server.mjs';
 import { getActiveHead } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
 import { invariant as invariant$1, InvariantError } from 'ts-invariant';
@@ -12,7 +12,6 @@ import { Trie } from '@wry/trie';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderVNode, ssrRenderSlot, ssrInterpolate, ssrRenderSuspense, ssrRenderAttr, ssrIncludeBooleanAttr, ssrLooseContain, ssrLooseEqual, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
 import { Icon as Icon$1 } from '@iconify/vue/dist/offline';
 import { addAPIProvider, loadIcon } from '@iconify/vue';
-import { gql } from 'graphql-tag';
 import 'node:http';
 import 'node:https';
 import 'fs';
@@ -1984,8 +1983,6 @@ function useAppConfig() {
   }
   return nuxtApp._appConfig;
 }
-const nuxtLinkDefaults = { "componentName": "NuxtLink" };
-const asyncDataDefaults = { "deep": true };
 const manifest_45route_45rule = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to) => {
   {
     return;
@@ -2208,7 +2205,7 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(function() {
   return Icon;
 }).then((r) => r.default));
-const LazyIconCSS = defineAsyncComponent(() => import('./_nuxt/IconCSS-hr9tjs2O.mjs').then((r) => r.default));
+const LazyIconCSS = defineAsyncComponent(() => import('./_nuxt/IconCSS-X6ZnKOhW.mjs').then((r) => r.default));
 const lazyGlobalComponents = [
   ["Icon", LazyIcon],
   ["IconCSS", LazyIconCSS]
@@ -9765,144 +9762,11 @@ function setContext(setter) {
     });
   });
 }
-const isDefer = (dedupe) => dedupe === "defer" || dedupe === false;
-function useAsyncData(...args) {
-  var _a;
-  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
-  if (typeof args[0] !== "string") {
-    args.unshift(autoKey);
-  }
-  let [key, handler, options = {}] = args;
-  if (typeof key !== "string") {
-    throw new TypeError("[nuxt] [asyncData] key must be a string.");
-  }
-  if (typeof handler !== "function") {
-    throw new TypeError("[nuxt] [asyncData] handler must be a function.");
-  }
-  const nuxt = /* @__PURE__ */ useNuxtApp();
-  const getDefault = () => null;
-  const getDefaultCachedData = () => nuxt.isHydrating ? nuxt.payload.data[key] : nuxt.static.data[key];
-  options.server = options.server ?? true;
-  options.default = options.default ?? getDefault;
-  options.getCachedData = options.getCachedData ?? getDefaultCachedData;
-  options.lazy = options.lazy ?? false;
-  options.immediate = options.immediate ?? true;
-  options.deep = options.deep ?? asyncDataDefaults.deep;
-  options.dedupe = options.dedupe ?? "cancel";
-  const hasCachedData = () => ![null, void 0].includes(options.getCachedData(key));
-  if (!nuxt._asyncData[key] || !options.immediate) {
-    (_a = nuxt.payload._errors)[key] ?? (_a[key] = null);
-    const _ref = options.deep ? ref : shallowRef;
-    nuxt._asyncData[key] = {
-      data: _ref(options.getCachedData(key) ?? options.default()),
-      pending: ref(!hasCachedData()),
-      error: toRef(nuxt.payload._errors, key),
-      status: ref("idle")
-    };
-  }
-  const asyncData = { ...nuxt._asyncData[key] };
-  asyncData.refresh = asyncData.execute = (opts = {}) => {
-    if (nuxt._asyncDataPromises[key]) {
-      if (isDefer(opts.dedupe ?? options.dedupe)) {
-        return nuxt._asyncDataPromises[key];
-      }
-      nuxt._asyncDataPromises[key].cancelled = true;
-    }
-    if ((opts._initial || nuxt.isHydrating && opts._initial !== false) && hasCachedData()) {
-      return Promise.resolve(options.getCachedData(key));
-    }
-    asyncData.pending.value = true;
-    asyncData.status.value = "pending";
-    const promise = new Promise(
-      (resolve, reject) => {
-        try {
-          resolve(handler(nuxt));
-        } catch (err) {
-          reject(err);
-        }
-      }
-    ).then((_result) => {
-      if (promise.cancelled) {
-        return nuxt._asyncDataPromises[key];
-      }
-      let result = _result;
-      if (options.transform) {
-        result = options.transform(_result);
-      }
-      if (options.pick) {
-        result = pick(result, options.pick);
-      }
-      nuxt.payload.data[key] = result;
-      asyncData.data.value = result;
-      asyncData.error.value = null;
-      asyncData.status.value = "success";
-    }).catch((error) => {
-      if (promise.cancelled) {
-        return nuxt._asyncDataPromises[key];
-      }
-      asyncData.error.value = createError(error);
-      asyncData.data.value = unref(options.default());
-      asyncData.status.value = "error";
-    }).finally(() => {
-      if (promise.cancelled) {
-        return;
-      }
-      asyncData.pending.value = false;
-      delete nuxt._asyncDataPromises[key];
-    });
-    nuxt._asyncDataPromises[key] = promise;
-    return nuxt._asyncDataPromises[key];
-  };
-  const initialFetch = () => asyncData.refresh({ _initial: true });
-  const fetchOnServer = options.server !== false && nuxt.payload.serverRendered;
-  if (fetchOnServer && options.immediate) {
-    const promise = initialFetch();
-    if (getCurrentInstance()) {
-      onServerPrefetch(() => promise);
-    } else {
-      nuxt.hook("app:created", async () => {
-        await promise;
-      });
-    }
-  }
-  const asyncDataPromise = Promise.resolve(nuxt._asyncDataPromises[key]).then(() => asyncData);
-  Object.assign(asyncDataPromise, asyncData);
-  return asyncDataPromise;
-}
-function pick(obj, keys) {
-  const newObj = {};
-  for (const key of keys) {
-    newObj[key] = obj[key];
-  }
-  return newObj;
-}
 const NuxtApollo = {
   proxyCookies: true,
   clientAwareness: false,
   cookieAttributes: { "maxAge": 604800, "secure": true },
   clients: { "default": { "httpEndpoint": "https://spacex-production.up.railway.app/", "authType": "Bearer", "authHeader": "Authorization", "tokenName": "apollo:default.token", "tokenStorage": "cookie", "defaultOptions": void 0 } }
-};
-function useAsyncQuery(...args) {
-  const { key, fn } = prep(...args);
-  return useAsyncData(key, fn, "$WvHsgSk08j");
-}
-const prep = (...args) => {
-  var _a, _b, _c, _d, _e, _f;
-  const { clients } = useApollo();
-  const query = ((_a = args == null ? void 0 : args[0]) == null ? void 0 : _a.query) || (args == null ? void 0 : args[0]);
-  const cache = ((_b = args == null ? void 0 : args[0]) == null ? void 0 : _b.cache) ?? true;
-  const variables = ((_c = args == null ? void 0 : args[0]) == null ? void 0 : _c.variables) || typeof (args == null ? void 0 : args[1]) !== "string" && (args == null ? void 0 : args[1]) || void 0;
-  const context = ((_d = args == null ? void 0 : args[0]) == null ? void 0 : _d.context) || typeof (args == null ? void 0 : args[1]) === "string" && (args == null ? void 0 : args[3]) || void 0;
-  let clientId = ((_e = args == null ? void 0 : args[0]) == null ? void 0 : _e.clientId) || typeof (args == null ? void 0 : args[1]) === "string" && (args == null ? void 0 : args[2]) || void 0;
-  if (!clientId || !(clients == null ? void 0 : clients[clientId])) {
-    clientId = (clients == null ? void 0 : clients.default) ? "default" : Object.keys(clients)[0];
-  }
-  const key = ((_f = args == null ? void 0 : args[0]) == null ? void 0 : _f.key) || hash({ query: print$1(query), variables, clientId });
-  const fn = () => {
-    var _a2;
-    return (_a2 = clients[clientId]) == null ? void 0 : _a2.query({ query, variables, fetchPolicy: cache ? "cache-first" : "no-cache", context }).then((r) => r.data);
-  };
-  return { key, query, clientId, variables, fn };
 };
 const useApollo = () => {
   const nuxtApp = /* @__PURE__ */ useNuxtApp();
@@ -10243,6 +10107,76 @@ const Icon = /* @__PURE__ */ Object.freeze({
   default: __nuxt_component_0$1
 });
 const _sfc_main$7 = {
+  name: "Timer",
+  data() {
+    return {
+      time: 1200,
+      // 20 minutes in seconds
+      isPaused: true,
+      intervalId: null,
+      sound: null
+    };
+  },
+  computed: {
+    formatTime() {
+      const minutes = Math.floor(this.time / 60);
+      const seconds = this.time % 60;
+      return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+  },
+  methods: {
+    toggleTimer() {
+      if (this.isPaused) {
+        this.startTimer();
+      } else {
+        this.pauseTimer();
+      }
+    },
+    startTimer() {
+      this.isPaused = false;
+      this.intervalId = null;
+      this.intervalId = setInterval(() => {
+        if (this.time > 0) {
+          this.time--;
+        } else {
+          this.pauseTimer();
+          this.playSound();
+        }
+      }, 1e3);
+    },
+    pauseTimer() {
+      this.isPaused = true;
+      clearInterval(this.intervalId);
+    },
+    playSound() {
+      this.sound.play();
+    }
+  },
+  mounted() {
+    this.sound = new Audio("/sounds/ding.mp3");
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalId);
+    this.sound.remove();
+  }
+};
+function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "pomodoro" }, _attrs))} data-v-f5ea58fc><div class="timer" data-v-f5ea58fc>${ssrInterpolate($options.formatTime)}</div>`);
+  if ($data.time > 0) {
+    _push(`<div data-v-f5ea58fc><button class="minus-button small" data-v-f5ea58fc>-</button><button class="toggle-button small" data-v-f5ea58fc>${ssrInterpolate($data.isPaused ? "Start" : "Pause")}</button><button class="plus-button small" data-v-f5ea58fc>+</button></div>`);
+  } else {
+    _push(`<!---->`);
+  }
+  _push(`</div>`);
+}
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Timer.vue");
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+};
+const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-f5ea58fc"]]);
+const _sfc_main$6 = {
   name: "Modal",
   props: {
     show: {
@@ -10264,6 +10198,8 @@ const _sfc_main$7 = {
   },
   methods: {
     completeTask() {
+      this.$refs.timer.pauseTimer();
+      this.$refs.timer.time = 1200;
       if (this.shape) {
         this.$emit("spawnTetromino", this.shape);
       }
@@ -10271,33 +10207,40 @@ const _sfc_main$7 = {
     }
   }
 };
-function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Icon = __nuxt_component_0$1;
+  const _component_Timer = __nuxt_component_1$1;
   _push(`<div${ssrRenderAttrs(mergeProps({
     class: ["modal", { hidden: !$props.show }]
-  }, _attrs))} data-v-a9131755><div class="modal-content" data-v-a9131755><button class="close-button" aria-label="close modal" data-v-a9131755>`);
+  }, _attrs))} data-v-cffd8726><div class="modal-content" data-v-cffd8726><button class="close-button" aria-label="close modal" data-v-cffd8726>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:close-outline" }, null, _parent));
   _push(`</button>`);
   if ($props.title) {
-    _push(`<h2 data-v-a9131755>${ssrInterpolate($props.title)}</h2>`);
+    _push(`<h2 data-v-cffd8726>${ssrInterpolate($props.title)}</h2>`);
   } else {
     _push(`<!---->`);
   }
   ssrRenderSlot(_ctx.$slots, "default", {}, () => {
-    _push(`<p data-v-a9131755>${ssrInterpolate($props.text)}</p><button class="primary-btn" data-v-a9131755>`);
-    _push(ssrRenderComponent(_component_Icon, { name: "carbon:checkmark" }, null, _parent));
-    _push(` Complete Task </button>`);
+    _push(`<p data-v-cffd8726>${ssrInterpolate($props.text)}</p>`);
+    _push(ssrRenderComponent(_component_Timer, { ref: "timer" }, null, _parent));
+    if ($props.shape !== "none") {
+      _push(`<button class="primary-btn" data-v-cffd8726>`);
+      _push(ssrRenderComponent(_component_Icon, { name: "carbon:checkmark" }, null, _parent));
+      _push(` Complete Task </button>`);
+    } else {
+      _push(`<!---->`);
+    }
   }, _push, _parent);
   _push(`</div></div>`);
 }
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Modal.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-a9131755"]]);
-const _sfc_main$6 = {
+const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$4], ["__scopeId", "data-v-cffd8726"]]);
+const _sfc_main$5 = {
   name: "NewItemForm",
   data() {
     return {
@@ -10321,45 +10264,56 @@ const _sfc_main$6 = {
     }
   }
 };
-function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push(`<div${ssrRenderAttrs(_attrs)} data-v-4a5775e9><form data-v-4a5775e9><label for="name" data-v-4a5775e9>Name:</label><input type="text" id="name"${ssrRenderAttr("value", $data.name)} data-v-4a5775e9><label for="shape" data-v-4a5775e9>Shape:</label><select id="shape" data-v-4a5775e9><option value="Z" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "Z") : ssrLooseEqual($data.shape, "Z")) ? " selected" : ""}>random</option><option value="I" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "I") : ssrLooseEqual($data.shape, "I")) ? " selected" : ""}>I</option><option value="J" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "J") : ssrLooseEqual($data.shape, "J")) ? " selected" : ""}>J</option><option value="L" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "L") : ssrLooseEqual($data.shape, "L")) ? " selected" : ""}>L</option><option value="O" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "O") : ssrLooseEqual($data.shape, "O")) ? " selected" : ""}>O</option><option value="S" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "S") : ssrLooseEqual($data.shape, "S")) ? " selected" : ""}>S</option><option value="T" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "T") : ssrLooseEqual($data.shape, "T")) ? " selected" : ""}>T</option><option value="Z" data-v-4a5775e9${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "Z") : ssrLooseEqual($data.shape, "Z")) ? " selected" : ""}>Z</option></select><button type="submit" data-v-4a5775e9>Submit</button></form></div>`);
-}
-const _sfc_setup$6 = _sfc_main$6.setup;
-_sfc_main$6.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/NewItemForm.vue");
-  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
-};
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$4], ["__scopeId", "data-v-4a5775e9"]]);
-const _sfc_main$5 = {
-  props: {
-    list: {
-      type: Array,
-      required: true
-    }
-  }
-};
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_Icon = __nuxt_component_0$1;
-  _push(`<div${ssrRenderAttrs(_attrs)} data-v-5ea9c324><ul data-v-5ea9c324><!--[-->`);
-  ssrRenderList($props.list, (item) => {
-    _push(`<li class="item" data-v-5ea9c324><div class="${ssrRenderClass(["tetromino", item.shape])}" data-v-5ea9c324></div> ${ssrInterpolate(item.name)} <button class="removeItemBtn" data-v-5ea9c324>`);
-    _push(ssrRenderComponent(_component_Icon, { name: "carbon:trash-can" }, null, _parent));
-    _push(`</button></li>`);
-  });
-  _push(`<!--]--></ul><button class="addItemBtn primary-btn" data-v-5ea9c324>`);
-  _push(ssrRenderComponent(_component_Icon, { name: "carbon:add" }, null, _parent));
-  _push(` Add Item </button></div>`);
+  _push(`<div${ssrRenderAttrs(_attrs)} data-v-d545456e><form data-v-d545456e><label for="name" data-v-d545456e>Name:</label><input type="text" id="name"${ssrRenderAttr("value", $data.name)} placeholder="what do you want to do?" data-v-d545456e><label for="shape" data-v-d545456e>Tetromino Shape:</label><select id="shape" data-v-d545456e><option value="Z" selected data-v-d545456e>random</option><option value="I" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "I") : ssrLooseEqual($data.shape, "I")) ? " selected" : ""}>I</option><option value="J" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "J") : ssrLooseEqual($data.shape, "J")) ? " selected" : ""}>J</option><option value="L" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "L") : ssrLooseEqual($data.shape, "L")) ? " selected" : ""}>L</option><option value="O" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "O") : ssrLooseEqual($data.shape, "O")) ? " selected" : ""}>O</option><option value="S" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "S") : ssrLooseEqual($data.shape, "S")) ? " selected" : ""}>S</option><option value="T" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "T") : ssrLooseEqual($data.shape, "T")) ? " selected" : ""}>T</option><option value="Z" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "Z") : ssrLooseEqual($data.shape, "Z")) ? " selected" : ""}>Z</option></select><button class="primary-btn" type="submit" data-v-d545456e>Submit</button></form></div>`);
 }
 const _sfc_setup$5 = _sfc_main$5.setup;
 _sfc_main$5.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Bricklist.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/NewItemForm.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-5ea9c324"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-d545456e"]]);
 const _sfc_main$4 = {
+  props: {
+    list: {
+      type: Array,
+      required: true
+    },
+    collapse: {
+      type: Boolean,
+      required: true
+    }
+  }
+};
+function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_Icon = __nuxt_component_0$1;
+  _push(`<div${ssrRenderAttrs(mergeProps({
+    class: ["bricklist", !$props.collapse ? "show" : ""]
+  }, _attrs))} data-v-cc412d13><div class="animation-wrapper" data-v-cc412d13><ul data-v-cc412d13><!--[-->`);
+  ssrRenderList($props.list, (item) => {
+    _push(`<li class="item" data-v-cc412d13><div class="${ssrRenderClass(["tetromino", item.shape])}" data-v-cc412d13></div> ${ssrInterpolate(item.name)} <button class="removeItemBtn" data-v-cc412d13>`);
+    _push(ssrRenderComponent(_component_Icon, { name: "carbon:trash-can" }, null, _parent));
+    _push(`</button></li>`);
+  });
+  _push(`<!--]--></ul><button class="addItemBtn primary-btn" data-v-cc412d13>`);
+  _push(ssrRenderComponent(_component_Icon, { name: "carbon:add" }, null, _parent));
+  _push(` Add Item </button></div></div>`);
+}
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Bricklist.vue");
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
+};
+const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2], ["__scopeId", "data-v-cc412d13"]]);
+const _sfc_main$3 = {
   name: "MobileKeypad",
+  props: {
+    width: {
+      type: Number
+    }
+  },
   data() {
     return {
       keyLeftEvent: null,
@@ -10375,81 +10329,28 @@ const _sfc_main$4 = {
     this.keyUpEvent = new KeyboardEvent("keydown", { key: "ArrowUp" });
   }
 };
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Icon = __nuxt_component_0$1;
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "keypad" }, _attrs))} data-v-38f10b62><button class="square-button" alt="move left" data-v-38f10b62>`);
+  _push(`<div${ssrRenderAttrs(mergeProps({
+    class: "keypad",
+    style: { width: $props.width + "px" }
+  }, _attrs))} data-v-b67c11c7><button class="square-button" alt="move left" data-v-b67c11c7>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:arrow-left" }, null, _parent));
-  _push(`</button><button class="circle-button" data-v-38f10b62>`);
+  _push(`</button><button class="circle-button" data-v-b67c11c7>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:rotate-360" }, null, _parent));
-  _push(`</button><button class="square-button" alt="rotate" data-v-38f10b62>`);
+  _push(`</button><button class="square-button" alt="rotate" data-v-b67c11c7>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:arrow-right" }, null, _parent));
-  _push(`</button><button class="arrow-button" alt="move right" data-v-38f10b62>`);
+  _push(`</button><button class="arrow-button" alt="move right" data-v-b67c11c7>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:arrow-down" }, null, _parent));
   _push(`</button></div>`);
-}
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/MobileKeypad.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
-};
-const __nuxt_component_3 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2], ["__scopeId", "data-v-38f10b62"]]);
-const _sfc_main$3 = {
-  name: "DataComponent",
-  data() {
-    return {
-      loading: false,
-      error: null,
-      data: { ships: [] }
-    };
-  },
-  mounted() {
-    this.fetchData();
-  },
-  methods: {
-    async fetchData() {
-      this.loading = true;
-      const query = gql`
-        query getShips($limit: Int!) {
-          ships(limit: $limit) {
-            id
-            name
-          }
-        }
-      `;
-      const variables = { limit: 5 };
-      const { data, error } = await useAsyncQuery(query, variables);
-      if (data !== void 0 && data !== null) {
-        this.data = data;
-      } else {
-        this.error = error || "Error fetching data";
-      }
-      this.loading = false;
-    }
-  }
-};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push(`<div${ssrRenderAttrs(_attrs)}>`);
-  if ($data.loading) {
-    _push(`<div>Loading...</div>`);
-  } else if ($data.error) {
-    _push(`<div>Error: ${ssrInterpolate($data.error)}</div>`);
-  } else {
-    _push(`<div><ul><!--[-->`);
-    ssrRenderList($data.data.ships, (ship) => {
-      _push(`<li>${ssrInterpolate(ship.name)}</li>`);
-    });
-    _push(`<!--]--></ul></div>`);
-  }
-  _push(`</div>`);
 }
 const _sfc_setup$3 = _sfc_main$3.setup;
 _sfc_main$3.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Query.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/MobileKeypad.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
-const __nuxt_component_4 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$1]]);
+const __nuxt_component_3 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$1], ["__scopeId", "data-v-b67c11c7"]]);
 const isUserUsingMobile = () => {
   let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     (void 0).userAgent
@@ -10510,9 +10411,9 @@ const colors = {
   I: "#ff006e",
   O: "#8338ec",
   T: "#3a86ff",
-  S: "green",
+  S: "#06d6a0",
   Z: "#ffbe0b",
-  J: "blue",
+  J: "#4cc9f0",
   L: "#fb5607"
 };
 const sampleListData = [
@@ -10529,7 +10430,10 @@ const sampleListData = [
     name: "walk the dog",
     shape: "O"
   },
-  { name: "exercise", shape: "T" }
+  {
+    name: "exercise: including 25 sit-ups x3, 25 pushups x3, 30sec planking x3",
+    shape: "T"
+  }
 ];
 const _sfc_main$2 = {
   data() {
@@ -10547,9 +10451,15 @@ const _sfc_main$2 = {
       tetrominoSequence: [],
       // not using? deprecate?
       playfield: [],
+      isPlaying: false,
+      isLoading: true,
       linesCleared: 0,
       modalShow: false,
-      modalData: {},
+      modalData: {
+        name: "",
+        description: "",
+        shape: ""
+      },
       currentTetromino: null,
       count: 0,
       // animation frame counter
@@ -10583,10 +10493,8 @@ const _sfc_main$2 = {
     }
   },
   methods: {
+    // sets up the playfield grid data model
     setupGameboard() {
-      this.canvas = (void 0).getElementById("game");
-      this.ctx = this.canvas.getContext("2d");
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       for (let row = -2; row < 20; row++) {
         this.playfield[row] = [];
         for (let col = 0; col < 10; col++) {
@@ -10595,10 +10503,12 @@ const _sfc_main$2 = {
       }
     },
     clearGameboard() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.setupGameboard();
       this.drawPlayfield();
     },
     gameLoop() {
+      this.isPlaying = true;
       this.animation = requestAnimationFrame(this.gameLoop);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawPlayfield();
@@ -10619,15 +10529,11 @@ const _sfc_main$2 = {
       this.drawTetromino();
     },
     drawPlayfield() {
-      console.log("drawPlayfield", this.playfield);
-      console.log("ctx", this.ctx);
       for (let row = 0; row < this.playfield.length; row++) {
         for (let col = 0; col < this.playfield[row].length; col++) {
           if (this.playfield[row][col]) {
             const name = this.playfield[row][col];
-            console.log("name", name);
             this.ctx.fillStyle = colors[name];
-            console.log("fillStyle", this.ctx.fillStyle);
             this.ctx.fillRect(
               col * this.grid,
               row * this.grid,
@@ -10676,8 +10582,8 @@ const _sfc_main$2 = {
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
-            if (tetromino.row + row < 0) {
-              alert("game over");
+            if (tetromino.row - row < 0) {
+              this.showGameOver();
             }
             this.playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
           }
@@ -10696,8 +10602,18 @@ const _sfc_main$2 = {
         }
       }
       cancelAnimationFrame(this.animation);
+      this.isPlaying = false;
       this.drawPlayfield();
       this.currentTetromino = null;
+    },
+    showGameOver() {
+      this.isPlaying = false;
+      this.modalData = {
+        name: "Game Over",
+        description: "Your game is over. Close this message and click clear board to play again!",
+        shape: "none"
+      };
+      this.modalShow = !this.modalShow;
     },
     // tetromino movement
     handleKeyPress(e) {
@@ -10760,6 +10676,7 @@ const _sfc_main$2 = {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
     },
+    // setup playfield visual view
     configPlayfield() {
       this.windowWidth = (void 0).innerWidth;
       if (this.windowWidth < 500) {
@@ -10773,8 +10690,7 @@ const _sfc_main$2 = {
       }
     }
   },
-  mounted() {
-    this.configPlayfield();
+  beforeMount() {
     this.setupGameboard();
     const listData = localStorage.getItem("gameListData");
     const playfield = localStorage.getItem("playfield");
@@ -10784,6 +10700,13 @@ const _sfc_main$2 = {
     } else {
       this.listData = sampleListData;
     }
+    this.isLoading = false;
+  },
+  mounted() {
+    this.canvas = this.$refs.gameboard;
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.configPlayfield();
     this.showMobileKeypad = isUserUsingMobile$1();
     this.$nextTick(() => {
       this.drawPlayfield();
@@ -10801,51 +10724,59 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   const _component_NewItemForm = __nuxt_component_1;
   const _component_Bricklist = __nuxt_component_2;
   const _component_MobileKeypad = __nuxt_component_3;
-  const _component_Query = __nuxt_component_4;
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "apptheme" }, _attrs))} data-v-36481d11>`);
-  _push(ssrRenderComponent(_component_Modal, {
-    show: $data.modalShow,
-    title: $data.modalData.name ? $data.modalData.name : "Welcome",
-    text: $data.modalData.description ? $data.modalData.description : "",
-    shape: $data.modalData.shape ? $data.modalData.shape : "",
-    onCloseModal: () => {
-      $data.modalShow = !$data.modalShow;
-    },
-    onSpawnTetromino: (shape) => $options.spawnTetromino(shape)
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        if ($data.modalData == $data.newItemData) {
-          _push2(ssrRenderComponent(_component_NewItemForm, {
-            onSubmitForm: (item) => $options.addListItem(item)
-          }, null, _parent2, _scopeId));
+  if (!$data.isLoading) {
+    _push(`<div${ssrRenderAttrs(mergeProps({ class: "apptheme" }, _attrs))} data-v-aa7889f4>`);
+    _push(ssrRenderComponent(_component_Modal, {
+      show: $data.modalShow,
+      title: $data.modalData.name ? $data.modalData.name : "Welcome",
+      text: $data.modalData.description ? $data.modalData.description : "",
+      shape: $data.modalData.shape ? $data.modalData.shape : "",
+      onCloseModal: () => {
+        $data.modalShow = !$data.modalShow;
+      },
+      onSpawnTetromino: (shape) => $options.spawnTetromino(shape)
+    }, {
+      default: withCtx((_, _push2, _parent2, _scopeId) => {
+        if (_push2) {
+          if ($data.modalData == $data.newItemData) {
+            _push2(ssrRenderComponent(_component_NewItemForm, {
+              onSubmitForm: (item) => $options.addListItem(item)
+            }, null, _parent2, _scopeId));
+          } else {
+            _push2(`<!---->`);
+          }
         } else {
-          _push2(`<!---->`);
+          return [
+            $data.modalData == $data.newItemData ? (openBlock(), createBlock(_component_NewItemForm, {
+              key: 0,
+              onSubmitForm: (item) => $options.addListItem(item)
+            }, null, 8, ["onSubmitForm"])) : createCommentVNode("", true)
+          ];
         }
-      } else {
-        return [
-          $data.modalData == $data.newItemData ? (openBlock(), createBlock(_component_NewItemForm, {
-            key: 0,
-            onSubmitForm: (item) => $options.addListItem(item)
-          }, null, 8, ["onSubmitForm"])) : createCommentVNode("", true)
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`<div class="headerbar" data-v-36481d11><h3 data-v-36481d11>Bricktris</h3><span class="score" data-v-36481d11>Score: ${ssrInterpolate($data.linesCleared)}</span></div><div class="twocol" data-v-36481d11><div class="leftcol" data-v-36481d11>`);
-  _push(ssrRenderComponent(_component_Bricklist, {
-    list: $data.listData,
-    onToggleModal: (i) => $options.showModal(i),
-    onNewListItem: (i) => $options.showModal($data.newItemData),
-    onRemoveListItem: (i) => $options.removeListItem(i)
-  }, null, _parent));
-  _push(ssrRenderComponent(_component_MobileKeypad, {
-    onHandleKeyPress: (e) => $options.handleKeyPress(e)
-  }, null, _parent));
-  _push(`<div data-v-36481d11>`);
-  _push(ssrRenderComponent(_component_Query, null, null, _parent));
-  _push(`<button data-v-36481d11>Clear Game Board</button></div></div><div class="rightcol" data-v-36481d11><canvas id="game"${ssrRenderAttr("width", $data.gameWidth)}${ssrRenderAttr("height", $data.gameHeight)} class="grid" data-v-36481d11></canvas></div></div></div>`);
+      }),
+      _: 1
+    }, _parent));
+    _push(`<div class="headerbar" data-v-aa7889f4><h2 data-v-aa7889f4>Bricktris</h2> | <span class="score" data-v-aa7889f4>score: ${ssrInterpolate($data.linesCleared)}</span></div><div class="twocol" data-v-aa7889f4><div class="leftcol" data-v-aa7889f4>`);
+    _push(ssrRenderComponent(_component_Bricklist, {
+      list: $data.listData,
+      collapse: $data.isPlaying,
+      onToggleModal: (i) => $options.showModal(i),
+      onNewListItem: (i) => $options.showModal($data.newItemData),
+      onRemoveListItem: (i) => $options.removeListItem(i)
+    }, null, _parent));
+    _push(`<div data-v-aa7889f4><button class="small" data-v-aa7889f4> Clear Game Board </button></div>`);
+    if ($data.showMobileKeypad) {
+      _push(ssrRenderComponent(_component_MobileKeypad, {
+        onHandleKeyPress: (e) => $options.handleKeyPress(e),
+        width: $data.gameWidth
+      }, null, _parent));
+    } else {
+      _push(`<!---->`);
+    }
+    _push(`</div><div class="rightcol" data-v-aa7889f4><canvas id="game"${ssrRenderAttr("width", $data.gameWidth)}${ssrRenderAttr("height", $data.gameHeight)} class="grid" data-v-aa7889f4></canvas></div></div></div>`);
+  } else {
+    _push(`<!---->`);
+  }
 }
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
@@ -10853,7 +10784,7 @@ _sfc_main$2.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-36481d11"]]);
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-aa7889f4"]]);
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,
@@ -10875,8 +10806,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./_nuxt/error-404-KFuVnvDH.mjs').then((r) => r.default || r));
-    const _Error = defineAsyncComponent(() => import('./_nuxt/error-500-FI7uDiqQ.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./_nuxt/error-404-BXCOC9Ny.mjs').then((r) => r.default || r));
+    const _Error = defineAsyncComponent(() => import('./_nuxt/error-500-ZacB0L4Z.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -10894,7 +10825,7 @@ const _sfc_main = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const IslandRenderer = defineAsyncComponent(() => import('./_nuxt/island-renderer-YCXLir6_.mjs').then((r) => r.default || r));
+    const IslandRenderer = defineAsyncComponent(() => import('./_nuxt/island-renderer-8qC454ol.mjs').then((r) => r.default || r));
     const nuxtApp = /* @__PURE__ */ useNuxtApp();
     nuxtApp.deferHydration();
     nuxtApp.ssrContext.url;
@@ -10956,5 +10887,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, useRuntimeConfig as a, navigateTo as b, createError as c, useAppConfig as d, entry$1 as default, resolveIconName as e, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRouter as u };
+export { _export_sfc as _, useRuntimeConfig as a, useAppConfig as b, createError as c, resolveIconName as d, entry$1 as default, injectHead as i, navigateTo as n, resolveUnrefHeadInput as r, useRouter as u };
 //# sourceMappingURL=server.mjs.map

@@ -42,7 +42,7 @@ button {
     background-color: darken($button-background, 10%);
   }
   &.small {
-    padding: calc($spacer/2);
+    padding: calc($spacer/2) $spacer;
     font-size: 0.8rem;
   }
 }

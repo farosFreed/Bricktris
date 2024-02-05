@@ -20,7 +20,6 @@ import '@wry/equality';
 import '@wry/trie';
 import '@iconify/vue/dist/offline';
 import '@iconify/vue';
-import 'graphql-tag';
 
 const _sfc_main = {
   __name: "error-500",
@@ -72,4 +71,4 @@ _sfc_main.setup = (props, ctx) => {
 const error500 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-df79c84d"]]);
 
 export { error500 as default };
-//# sourceMappingURL=error-500-FI7uDiqQ.mjs.map
+//# sourceMappingURL=error-500-ZacB0L4Z.mjs.map

@@ -25,7 +25,6 @@
     "entities": "4.5.0",
     "estree-walker": "2.0.2",
     "graphql": "16.8.1",
-    "graphql-tag": "2.12.6",
     "hookable": "5.5.3",
     "optimism": "0.18.0",
     "source-map-js": "1.0.2",

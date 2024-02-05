@@ -3228,7 +3228,7 @@ function klona(x) {
 
 const inlineAppConfig = {
   "nuxt": {
-    "buildId": "2ea1dffa-b44d-4a4c-adbe-b63f6abe0c6d"
+    "buildId": "4a1042d7-620f-48f7-85c2-c799a1b33408"
   }
 };
 
@@ -5125,136 +5125,346 @@ const errorHandler = (async function errorhandler(error, event) {
 const assets = {
   "/favicon.ico": {
     "type": "image/vnd.microsoft.icon",
-    "etag": "\"10be-n8egyE9tcb7sKGr/pYCaQ4uWqxI\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
-    "size": 4286,
+    "etag": "\"1b3-erGOREmTisUG48ZEnDAOzE7N3J4\"",
+    "mtime": "2024-02-05T23:33:43.051Z",
+    "size": 435,
     "path": "../public/favicon.ico"
   },
   "/_nuxt/IconCSS.GdgQB7f8.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"102-h9Iv/oJ6/LJjNheNG92kJMblk/8\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
+    "mtime": "2024-02-05T23:33:43.037Z",
     "size": 258,
     "path": "../public/_nuxt/IconCSS.GdgQB7f8.css"
   },
-  "/_nuxt/IconCSS.y8i2W_r9.js": {
+  "/_nuxt/IconCSS.te_g4CVz.js": {
     "type": "application/javascript",
-    "etag": "\"40a-Xrp7MR8pwT/1g32X7N/8p6jVMi8\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
+    "etag": "\"40a-QrGFEAUetbvAMMIq9lM81066irs\"",
+    "mtime": "2024-02-05T23:33:43.037Z",
     "size": 1034,
-    "path": "../public/_nuxt/IconCSS.y8i2W_r9.js"
+    "path": "../public/_nuxt/IconCSS.te_g4CVz.js"
   },
-  "/_nuxt/entry.5CuazK1A.js": {
-    "type": "application/javascript",
-    "etag": "\"5ed8c-Wi+lr8+Cv6P85shKGKQdrplP3As\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
-    "size": 388492,
-    "path": "../public/_nuxt/entry.5CuazK1A.js"
-  },
-  "/_nuxt/entry.tmEo-gHM.css": {
+  "/_nuxt/entry.79_iHHBh.css": {
     "type": "text/css; charset=utf-8",
-    "etag": "\"efb-erZZkkEUbhoPuM3D3petq5jpNPk\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
-    "size": 3835,
-    "path": "../public/_nuxt/entry.tmEo-gHM.css"
+    "etag": "\"1132-9VBu+ppg3PCuiHOqr6WQJa/a9ZA\"",
+    "mtime": "2024-02-05T23:33:43.037Z",
+    "size": 4402,
+    "path": "../public/_nuxt/entry.79_iHHBh.css"
   },
-  "/_nuxt/error-404.NAztsHLa.js": {
+  "/_nuxt/entry.yTa5mToa.js": {
     "type": "application/javascript",
-    "etag": "\"1931-ToNvT3NH3+OEn9ax/4or1X9yv/M\"",
-    "mtime": "2024-02-01T00:26:47.023Z",
-    "size": 6449,
-    "path": "../public/_nuxt/error-404.NAztsHLa.js"
+    "etag": "\"55f6d-SMIn/u4gv8jimLFIXBhgm1HvpVI\"",
+    "mtime": "2024-02-05T23:33:43.038Z",
+    "size": 352109,
+    "path": "../public/_nuxt/entry.yTa5mToa.js"
   },
   "/_nuxt/error-404.qFGwA4uS.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"e26-9UI2Z985OY4ttYcbyiWh91cxpnM\"",
-    "mtime": "2024-02-01T00:26:47.023Z",
+    "mtime": "2024-02-05T23:33:43.037Z",
     "size": 3622,
     "path": "../public/_nuxt/error-404.qFGwA4uS.css"
+  },
+  "/_nuxt/error-404.whL8I9qf.js": {
+    "type": "application/javascript",
+    "etag": "\"1931-VOSCpMmkVbkM6rEKYWiEqY+zCD0\"",
+    "mtime": "2024-02-05T23:33:43.037Z",
+    "size": 6449,
+    "path": "../public/_nuxt/error-404.whL8I9qf.js"
+  },
+  "/_nuxt/error-500.GPm6x0La.js": {
+    "type": "application/javascript",
+    "etag": "\"77e-8Fk4HdeqRUUee+Jmh0gu09iXJuE\"",
+    "mtime": "2024-02-05T23:33:43.037Z",
+    "size": 1918,
+    "path": "../public/_nuxt/error-500.GPm6x0La.js"
   },
   "/_nuxt/error-500.V0P2JAtD.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"79e-ByRo+49BgcevWdRjJy3CMx2IA5k\"",
-    "mtime": "2024-02-01T00:26:47.023Z",
+    "mtime": "2024-02-05T23:33:43.037Z",
     "size": 1950,
     "path": "../public/_nuxt/error-500.V0P2JAtD.css"
   },
-  "/_nuxt/error-500.y65m3bKi.js": {
+  "/_nuxt/vue.f36acd1f.jtd_Mgyl.js": {
     "type": "application/javascript",
-    "etag": "\"77e-Mzf825fW9jOhVxFE+AFBMeXY2e4\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
-    "size": 1918,
-    "path": "../public/_nuxt/error-500.y65m3bKi.js"
-  },
-  "/_nuxt/vue.f36acd1f.-tbkfR32.js": {
-    "type": "application/javascript",
-    "etag": "\"186-pk0wI4HNbD5jVHWXTa9lRY73MMA\"",
-    "mtime": "2024-02-01T00:26:47.024Z",
+    "etag": "\"186-rxsK7FrWpP4KW708pOOtLUnmNqg\"",
+    "mtime": "2024-02-05T23:33:43.037Z",
     "size": 390,
-    "path": "../public/_nuxt/vue.f36acd1f.-tbkfR32.js"
+    "path": "../public/_nuxt/vue.f36acd1f.jtd_Mgyl.js"
   },
   "/images/I.svg": {
     "type": "image/svg+xml",
     "etag": "\"39b-2Jsd6FuBRBUGfvUWs2J0UzOxZjA\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.049Z",
     "size": 923,
     "path": "../public/images/I.svg"
   },
   "/images/J.svg": {
     "type": "image/svg+xml",
     "etag": "\"3ef-9h70bU2jpRkoLEYPmO/bi+MAodM\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.050Z",
     "size": 1007,
     "path": "../public/images/J.svg"
   },
   "/images/L.svg": {
     "type": "image/svg+xml",
     "etag": "\"35d-GIQqGdJNrSK7H2Ta9IAEBy65TYU\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.049Z",
     "size": 861,
     "path": "../public/images/L.svg"
   },
   "/images/O.svg": {
     "type": "image/svg+xml",
     "etag": "\"39e-Iks8pZ+eknrOfGY6rJzNju+QA7I\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.049Z",
     "size": 926,
     "path": "../public/images/O.svg"
   },
   "/images/S.svg": {
     "type": "image/svg+xml",
     "etag": "\"3f2-0wC24u2NBs00pAOnWfRD0lMhsH4\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.050Z",
     "size": 1010,
     "path": "../public/images/S.svg"
   },
   "/images/T.svg": {
     "type": "image/svg+xml",
     "etag": "\"39e-bAuUeVRdfZI63rYZNKgwaYkdFLg\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.049Z",
     "size": 926,
     "path": "../public/images/T.svg"
   },
   "/images/Z.svg": {
     "type": "image/svg+xml",
     "etag": "\"39f-mfQRkHEKZYQxov3M+pA2vhlnn3U\"",
-    "mtime": "2024-02-01T00:26:47.038Z",
+    "mtime": "2024-02-05T23:33:43.050Z",
     "size": 927,
     "path": "../public/images/Z.svg"
   },
+  "/sounds/ding.mp3": {
+    "type": "audio/mpeg",
+    "etag": "\"4109-78ECfRkOuifYMUAofGfsJ7Jywbs\"",
+    "mtime": "2024-02-05T23:33:43.049Z",
+    "size": 16649,
+    "path": "../public/sounds/ding.mp3"
+  },
+  "/sounds/ding.ogg": {
+    "type": "audio/ogg",
+    "etag": "\"2506-bXkL4/lDyQqct1D4a60ZgZM+FSY\"",
+    "mtime": "2024-02-05T23:33:43.049Z",
+    "size": 9478,
+    "path": "../public/sounds/ding.ogg"
+  },
   "/_nuxt/builds/latest.json": {
     "type": "application/json",
-    "etag": "\"47-pQnX7QIttSGW76ejsqS/1Vsp7ww\"",
-    "mtime": "2024-02-01T00:26:47.005Z",
+    "etag": "\"47-vTU18OugnruXwRjExB0OdeRph90\"",
+    "mtime": "2024-02-05T23:33:43.032Z",
     "size": 71,
     "path": "../public/_nuxt/builds/latest.json"
   },
-  "/_nuxt/builds/meta/2ea1dffa-b44d-4a4c-adbe-b63f6abe0c6d.json": {
+  "/fonts/Rubik_Mono_One/OFL.txt": {
+    "type": "text/plain; charset=utf-8",
+    "etag": "\"11b7-3VPuMginTLqCuMI4VH992eTwW8o\"",
+    "mtime": "2024-02-05T23:33:43.050Z",
+    "size": 4535,
+    "path": "../public/fonts/Rubik_Mono_One/OFL.txt"
+  },
+  "/fonts/Rubik_Mono_One/RubikMonoOne-Regular.ttf": {
+    "type": "font/ttf",
+    "etag": "\"1c98c-SU4wgF3AcN+hnBT2nbLciH7RJVY\"",
+    "mtime": "2024-02-05T23:33:43.052Z",
+    "size": 117132,
+    "path": "../public/fonts/Rubik_Mono_One/RubikMonoOne-Regular.ttf"
+  },
+  "/fonts/firasans/FiraSans-Black.ttf": {
+    "type": "font/ttf",
+    "etag": "\"77fe8-1PH2OXrn6eyaB532vwUWRJMhbSw\"",
+    "mtime": "2024-02-05T23:33:43.052Z",
+    "size": 491496,
+    "path": "../public/fonts/firasans/FiraSans-Black.ttf"
+  },
+  "/fonts/firasans/FiraSans-BlackItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"7cedc-hbD/SU6bJZciF1pvc2fkxxOEk1I\"",
+    "mtime": "2024-02-05T23:33:43.054Z",
+    "size": 511708,
+    "path": "../public/fonts/firasans/FiraSans-BlackItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Bold.ttf": {
+    "type": "font/ttf",
+    "etag": "\"73b14-vbBM2eg1o897oi3wNU8UcoEt8iU\"",
+    "mtime": "2024-02-05T23:33:43.053Z",
+    "size": 473876,
+    "path": "../public/fonts/firasans/FiraSans-Bold.ttf"
+  },
+  "/fonts/firasans/FiraSans-BoldItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"77e28-ZMoMKhe8iePidKuT0KNMz1V+1e4\"",
+    "mtime": "2024-02-05T23:33:43.054Z",
+    "size": 491048,
+    "path": "../public/fonts/firasans/FiraSans-BoldItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-ExtraBold.ttf": {
+    "type": "font/ttf",
+    "etag": "\"75764-2aSA/JdOYkRVY67jiYlsbpLDLts\"",
+    "mtime": "2024-02-05T23:33:43.054Z",
+    "size": 481124,
+    "path": "../public/fonts/firasans/FiraSans-ExtraBold.ttf"
+  },
+  "/fonts/firasans/FiraSans-ExtraBoldItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"7f380-0mBbgiy2kwnXQIkUBirkg7ngSbw\"",
+    "mtime": "2024-02-05T23:33:43.057Z",
+    "size": 521088,
+    "path": "../public/fonts/firasans/FiraSans-ExtraBoldItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-ExtraLight.ttf": {
+    "type": "font/ttf",
+    "etag": "\"694cc-mHSVFPBy3+0I/Pn/Xnfs+8XkjNg\"",
+    "mtime": "2024-02-05T23:33:43.059Z",
+    "size": 431308,
+    "path": "../public/fonts/firasans/FiraSans-ExtraLight.ttf"
+  },
+  "/fonts/firasans/FiraSans-ExtraLightItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6d1c4-h/XhAdpuuQDm280OLgmIvQJGJVg\"",
+    "mtime": "2024-02-05T23:33:43.059Z",
+    "size": 446916,
+    "path": "../public/fonts/firasans/FiraSans-ExtraLightItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Italic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6f6f4-xYRVLMzHFusoepWiOAa+dG88rXM\"",
+    "mtime": "2024-02-05T23:33:43.060Z",
+    "size": 456436,
+    "path": "../public/fonts/firasans/FiraSans-Italic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Light.ttf": {
+    "type": "font/ttf",
+    "etag": "\"69ea0-15X9/JnRutLA5C7qWp8G5J3Wexs\"",
+    "mtime": "2024-02-05T23:33:43.064Z",
+    "size": 433824,
+    "path": "../public/fonts/firasans/FiraSans-Light.ttf"
+  },
+  "/fonts/firasans/FiraSans-LightItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6d390-JtgLEbayRJkWU0G85mwFEmYjBS4\"",
+    "mtime": "2024-02-05T23:33:43.062Z",
+    "size": 447376,
+    "path": "../public/fonts/firasans/FiraSans-LightItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Medium.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6bc28-kYFDLXZxGuUQyfIHE0ZYEM8J5js\"",
+    "mtime": "2024-02-05T23:33:43.059Z",
+    "size": 441384,
+    "path": "../public/fonts/firasans/FiraSans-Medium.ttf"
+  },
+  "/fonts/firasans/FiraSans-MediumItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6f888-cJhSUwaPzdR3TxmMYJjF9JRuVI4\"",
+    "mtime": "2024-02-05T23:33:43.064Z",
+    "size": 456840,
+    "path": "../public/fonts/firasans/FiraSans-MediumItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Regular.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6ba98-lkfowU5mGFF/aUL7raCgHiwYlz0\"",
+    "mtime": "2024-02-05T23:33:43.064Z",
+    "size": 440984,
+    "path": "../public/fonts/firasans/FiraSans-Regular.ttf"
+  },
+  "/fonts/firasans/FiraSans-SemiBold.ttf": {
+    "type": "font/ttf",
+    "etag": "\"73848-fWvE2Op4ZWyi8jTkHw505natYeI\"",
+    "mtime": "2024-02-05T23:33:43.069Z",
+    "size": 473160,
+    "path": "../public/fonts/firasans/FiraSans-SemiBold.ttf"
+  },
+  "/fonts/firasans/FiraSans-SemiBoldItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"77cd0-kl0D71+1GYfNBAX3y3F0Vu8khUo\"",
+    "mtime": "2024-02-05T23:33:43.066Z",
+    "size": 490704,
+    "path": "../public/fonts/firasans/FiraSans-SemiBoldItalic.ttf"
+  },
+  "/fonts/firasans/FiraSans-Thin.ttf": {
+    "type": "font/ttf",
+    "etag": "\"68300-mNVCiKbzVJd+hbxLsgDpENUEW4s\"",
+    "mtime": "2024-02-05T23:33:43.066Z",
+    "size": 426752,
+    "path": "../public/fonts/firasans/FiraSans-Thin.ttf"
+  },
+  "/fonts/firasans/FiraSans-ThinItalic.ttf": {
+    "type": "font/ttf",
+    "etag": "\"6bbcc-fjoKq763Ei88tNnomM1VgQqBDvk\"",
+    "mtime": "2024-02-05T23:33:43.066Z",
+    "size": 441292,
+    "path": "../public/fonts/firasans/FiraSans-ThinItalic.ttf"
+  },
+  "/fonts/firasans/OFL.txt": {
+    "type": "text/plain; charset=utf-8",
+    "etag": "\"1171-Ky33ADwoCRlpQsepc6nGunVROoU\"",
+    "mtime": "2024-02-05T23:33:43.065Z",
+    "size": 4465,
+    "path": "../public/fonts/firasans/OFL.txt"
+  },
+  "/fonts/pixelifysans/OFL.txt": {
+    "type": "text/plain; charset=utf-8",
+    "etag": "\"1188-e1TiJomja6hQKAvy275rEMTj8Dw\"",
+    "mtime": "2024-02-05T23:33:43.052Z",
+    "size": 4488,
+    "path": "../public/fonts/pixelifysans/OFL.txt"
+  },
+  "/fonts/pixelifysans/PixelifySans-VariableFont_wght.ttf": {
+    "type": "font/ttf",
+    "etag": "\"13224-Si126HydN1QQmpQAgA2s5guFqkI\"",
+    "mtime": "2024-02-05T23:33:43.052Z",
+    "size": 78372,
+    "path": "../public/fonts/pixelifysans/PixelifySans-VariableFont_wght.ttf"
+  },
+  "/fonts/pixelifysans/README.txt": {
+    "type": "text/plain; charset=utf-8",
+    "etag": "\"887-KAoLVymIbROfipzbb9MD+Th5eek\"",
+    "mtime": "2024-02-05T23:33:43.052Z",
+    "size": 2183,
+    "path": "../public/fonts/pixelifysans/README.txt"
+  },
+  "/_nuxt/builds/meta/4a1042d7-620f-48f7-85c2-c799a1b33408.json": {
     "type": "application/json",
-    "etag": "\"8b-Jqk+2+zELearCKDIYU/iV65CewY\"",
-    "mtime": "2024-02-01T00:26:46.979Z",
+    "etag": "\"8b-cQznB/ZMmNUedgImvrOBsWek5Io\"",
+    "mtime": "2024-02-05T23:33:43.014Z",
     "size": 139,
-    "path": "../public/_nuxt/builds/meta/2ea1dffa-b44d-4a4c-adbe-b63f6abe0c6d.json"
+    "path": "../public/_nuxt/builds/meta/4a1042d7-620f-48f7-85c2-c799a1b33408.json"
+  },
+  "/fonts/pixelifysans/static/PixelifySans-Bold.ttf": {
+    "type": "font/ttf",
+    "etag": "\"c6bc-Wgma9IrIKrtUWyqm4YGW7mAL2+k\"",
+    "mtime": "2024-02-05T23:33:43.051Z",
+    "size": 50876,
+    "path": "../public/fonts/pixelifysans/static/PixelifySans-Bold.ttf"
+  },
+  "/fonts/pixelifysans/static/PixelifySans-Medium.ttf": {
+    "type": "font/ttf",
+    "etag": "\"c784-omPS3dl5IfPHWHRO7ljR/iJJ29I\"",
+    "mtime": "2024-02-05T23:33:43.067Z",
+    "size": 51076,
+    "path": "../public/fonts/pixelifysans/static/PixelifySans-Medium.ttf"
+  },
+  "/fonts/pixelifysans/static/PixelifySans-Regular.ttf": {
+    "type": "font/ttf",
+    "etag": "\"c874-aCOq2FQTPlmEhY3ctcizEKhWqFA\"",
+    "mtime": "2024-02-05T23:33:43.067Z",
+    "size": 51316,
+    "path": "../public/fonts/pixelifysans/static/PixelifySans-Regular.ttf"
+  },
+  "/fonts/pixelifysans/static/PixelifySans-SemiBold.ttf": {
+    "type": "font/ttf",
+    "etag": "\"c7a0-bTZwR6rZPdXG2d2vetlgdtZ76iw\"",
+    "mtime": "2024-02-05T23:33:43.067Z",
+    "size": 51104,
+    "path": "../public/fonts/pixelifysans/static/PixelifySans-SemiBold.ttf"
   }
 };
 
@@ -5451,7 +5661,7 @@ const _f4b49z = eventHandler((event) => {
   return readAsset(id);
 });
 
-const _lazy_bZAvAo = () => import('../handlers/renderer.mjs');
+const _lazy_bZAvAo = () => import('../handlers/renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
   { route: '', handler: _f4b49z, lazy: false, middleware: true, method: undefined },
@@ -5830,5 +6040,5 @@ trapUnhandledNodeErrors();
 setupGracefulShutdown(listener, nitroApp);
 const nodeServer = {};
 
-export { $fetch as $, getRequestHeaders as A, parse as B, getRequestHeader as C, destr as D, isEqual as E, setCookie as F, getCookie as G, deleteCookie as H, withTrailingSlash as I, withoutTrailingSlash as J, nodeServer as K, send as a, setResponseStatus as b, setResponseHeaders as c, useRuntimeConfig as d, eventHandler as e, getQuery as f, getResponseStatus as g, createError$1 as h, getRouteRules as i, joinURL as j, getResponseStatusText as k, hasProtocol as l, isScriptProtocol as m, klona as n, sanitizeStatusCode as o, parseURL as p, defuFn as q, createHooks as r, setResponseHeader as s, hash as t, useNitroApp as u, isEqual$1 as v, withQuery as w, stringifyParsedURL as x, stringifyQuery as y, parseQuery as z };
+export { $fetch as $, parse as A, getRequestHeader as B, destr as C, isEqual as D, setCookie as E, getCookie as F, deleteCookie as G, withTrailingSlash as H, withoutTrailingSlash as I, nodeServer as J, send as a, setResponseStatus as b, setResponseHeaders as c, useRuntimeConfig as d, eventHandler as e, getQuery as f, getResponseStatus as g, createError$1 as h, getRouteRules as i, joinURL as j, getResponseStatusText as k, hasProtocol as l, isScriptProtocol as m, klona as n, sanitizeStatusCode as o, parseURL as p, defuFn as q, createHooks as r, setResponseHeader as s, isEqual$1 as t, useNitroApp as u, stringifyParsedURL as v, withQuery as w, stringifyQuery as x, parseQuery as y, getRequestHeaders as z };
 //# sourceMappingURL=node-server.mjs.map

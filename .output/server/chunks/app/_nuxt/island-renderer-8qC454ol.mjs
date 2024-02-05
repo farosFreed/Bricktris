@@ -19,7 +19,6 @@ import '@wry/trie';
 import 'vue/server-renderer';
 import '@iconify/vue/dist/offline';
 import '@iconify/vue';
-import 'graphql-tag';
 
 const islandComponents = {};
 const islandRenderer = defineComponent({
@@ -45,4 +44,4 @@ const islandRenderer = defineComponent({
 });
 
 export { islandRenderer as default };
-//# sourceMappingURL=island-renderer-YCXLir6_.mjs.map
+//# sourceMappingURL=island-renderer-8qC454ol.mjs.map

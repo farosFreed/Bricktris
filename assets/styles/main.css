@@ -44,7 +44,7 @@ button:hover {
 }
 
 button.small {
-  padding: calc($spacer/2);
+  padding: calc($spacer/2) 10px;
   font-size: 0.8rem;
 }
 
