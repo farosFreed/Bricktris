@@ -32,7 +32,6 @@
           @removeListItem="(i) => removeListItem(i)"
         />
         <div>
-          <Query />
           <button class="small" @click="clearGameboard">
             Clear Game Board
           </button>
