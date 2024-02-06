@@ -9,7 +9,7 @@ import { print as print$1, Kind, visit, BREAK, isSelectionNode } from 'graphql';
 import { Slot, wrap as wrap$1, dep } from 'optimism';
 import equal$1, { equal } from '@wry/equality';
 import { Trie } from '@wry/trie';
-import { ssrRenderAttrs, ssrRenderComponent, ssrRenderVNode, ssrRenderSlot, ssrInterpolate, ssrRenderSuspense, ssrRenderAttr, ssrIncludeBooleanAttr, ssrLooseContain, ssrLooseEqual, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
+import { ssrRenderAttrs, ssrRenderComponent, ssrRenderVNode, ssrRenderSlot, ssrInterpolate, ssrRenderSuspense, ssrRenderAttr, ssrIncludeBooleanAttr, ssrLooseContain, ssrLooseEqual, ssrRenderList, ssrRenderClass, ssrRenderStyle } from 'vue/server-renderer';
 import { Icon as Icon$1 } from '@iconify/vue/dist/offline';
 import { addAPIProvider, loadIcon } from '@iconify/vue';
 import 'node:http';
@@ -1972,7 +1972,7 @@ const asyncHandlersKey = "__unctx_async_handlers__";
 const asyncHandlers = _globalThis[asyncHandlersKey] || (_globalThis[asyncHandlersKey] = /* @__PURE__ */ new Set());
 const inlineConfig = {
   "nuxt": {
-    "buildId": "dev"
+    "buildId": "acadba24-0f05-476b-84e2-0c55ca699f41"
   }
 };
 const __appConfig = /* @__PURE__ */ defuFn(inlineConfig);
@@ -9970,7 +9970,7 @@ function resolveIconName(name = "") {
     name: name || ""
   };
 }
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
   __name: "Icon",
   __ssrInlineRender: true,
   props: {
@@ -10095,18 +10095,18 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/nuxt-icon/dist/runtime/Icon.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const __nuxt_component_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-bd832875"]]);
+const __nuxt_component_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-bd832875"]]);
 const Icon = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   default: __nuxt_component_0$1
 });
-const _sfc_main$7 = {
+const _sfc_main$8 = {
   name: "Timer",
   data() {
     return {
@@ -10160,7 +10160,7 @@ const _sfc_main$7 = {
     this.sound.remove();
   }
 };
-function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   _push(`<div${ssrRenderAttrs(mergeProps({ class: "pomodoro" }, _attrs))} data-v-f5ea58fc><div class="timer" data-v-f5ea58fc>${ssrInterpolate($options.formatTime)}</div>`);
   if ($data.time > 0) {
     _push(`<div data-v-f5ea58fc><button class="minus-button small" data-v-f5ea58fc>-</button><button class="toggle-button small" data-v-f5ea58fc>${ssrInterpolate($data.isPaused ? "Start" : "Pause")}</button><button class="plus-button small" data-v-f5ea58fc>+</button></div>`);
@@ -10169,14 +10169,14 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }
   _push(`</div>`);
 }
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Timer.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-f5ea58fc"]]);
-const _sfc_main$6 = {
+const __nuxt_component_1$2 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-f5ea58fc"]]);
+const _sfc_main$7 = {
   name: "Modal",
   props: {
     show: {
@@ -10198,33 +10198,37 @@ const _sfc_main$6 = {
   },
   methods: {
     completeTask() {
+      if (!this.shape)
+        return;
       this.$refs.timer.pauseTimer();
       this.$refs.timer.time = 1200;
-      if (this.shape) {
-        this.$emit("spawnTetromino", this.shape);
-      }
+      this.$emit("spawnTetromino", { shape: this.shape, title: this.title });
       this.$emit("closeModal");
     }
   }
 };
-function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Icon = __nuxt_component_0$1;
-  const _component_Timer = __nuxt_component_1$1;
+  const _component_Timer = __nuxt_component_1$2;
   _push(`<div${ssrRenderAttrs(mergeProps({
     class: ["modal", { hidden: !$props.show }]
-  }, _attrs))} data-v-cffd8726><div class="modal-content" data-v-cffd8726><button class="close-button" aria-label="close modal" data-v-cffd8726>`);
+  }, _attrs))} data-v-7266084b><div class="modal-content" data-v-7266084b><button class="close-button" aria-label="close modal" data-v-7266084b>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:close-outline" }, null, _parent));
   _push(`</button>`);
   if ($props.title) {
-    _push(`<h2 data-v-cffd8726>${ssrInterpolate($props.title)}</h2>`);
+    _push(`<h2 data-v-7266084b>${ssrInterpolate($props.title)}</h2>`);
   } else {
     _push(`<!---->`);
   }
   ssrRenderSlot(_ctx.$slots, "default", {}, () => {
-    _push(`<p data-v-cffd8726>${ssrInterpolate($props.text)}</p>`);
-    _push(ssrRenderComponent(_component_Timer, { ref: "timer" }, null, _parent));
-    if ($props.shape !== "none") {
-      _push(`<button class="primary-btn" data-v-cffd8726>`);
+    _push(`<p data-v-7266084b>${ssrInterpolate($props.text)}</p>`);
+    if ($props.shape) {
+      _push(ssrRenderComponent(_component_Timer, { ref: "timer" }, null, _parent));
+    } else {
+      _push(`<!---->`);
+    }
+    if ($props.shape) {
+      _push(`<button class="primary-btn" data-v-7266084b>`);
       _push(ssrRenderComponent(_component_Icon, { name: "carbon:checkmark" }, null, _parent));
       _push(` Complete Task </button>`);
     } else {
@@ -10233,14 +10237,14 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }, _push, _parent);
   _push(`</div></div>`);
 }
-const _sfc_setup$6 = _sfc_main$6.setup;
-_sfc_main$6.setup = (props, ctx) => {
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Modal.vue");
-  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$4], ["__scopeId", "data-v-cffd8726"]]);
-const _sfc_main$5 = {
+const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$5], ["__scopeId", "data-v-7266084b"]]);
+const _sfc_main$6 = {
   name: "NewItemForm",
   data() {
     return {
@@ -10264,19 +10268,61 @@ const _sfc_main$5 = {
     }
   }
 };
-function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   _push(`<div${ssrRenderAttrs(_attrs)} data-v-d545456e><form data-v-d545456e><label for="name" data-v-d545456e>Name:</label><input type="text" id="name"${ssrRenderAttr("value", $data.name)} placeholder="what do you want to do?" data-v-d545456e><label for="shape" data-v-d545456e>Tetromino Shape:</label><select id="shape" data-v-d545456e><option value="Z" selected data-v-d545456e>random</option><option value="I" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "I") : ssrLooseEqual($data.shape, "I")) ? " selected" : ""}>I</option><option value="J" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "J") : ssrLooseEqual($data.shape, "J")) ? " selected" : ""}>J</option><option value="L" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "L") : ssrLooseEqual($data.shape, "L")) ? " selected" : ""}>L</option><option value="O" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "O") : ssrLooseEqual($data.shape, "O")) ? " selected" : ""}>O</option><option value="S" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "S") : ssrLooseEqual($data.shape, "S")) ? " selected" : ""}>S</option><option value="T" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "T") : ssrLooseEqual($data.shape, "T")) ? " selected" : ""}>T</option><option value="Z" data-v-d545456e${ssrIncludeBooleanAttr(Array.isArray($data.shape) ? ssrLooseContain($data.shape, "Z") : ssrLooseEqual($data.shape, "Z")) ? " selected" : ""}>Z</option></select><button class="primary-btn" type="submit" data-v-d545456e>Submit</button></form></div>`);
+}
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/NewItemForm.vue");
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+};
+const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$4], ["__scopeId", "data-v-d545456e"]]);
+const _sfc_main$5 = {
+  props: {
+    itemList: {
+      type: Array[String],
+      required: true
+    }
+  }
+};
+function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  _push(`<div${ssrRenderAttrs(_attrs)} data-v-6220eadf><h3 data-v-6220eadf>Completed Tasks</h3>`);
+  if ($props.itemList.length) {
+    _push(`<ul data-v-6220eadf><!--[-->`);
+    ssrRenderList($props.itemList, (item) => {
+      _push(`<li style="${ssrRenderStyle({ textDecoration: "line-through" })}" data-v-6220eadf>${ssrInterpolate(item)}</li>`);
+    });
+    _push(`<!--]--></ul>`);
+  } else {
+    _push(`<!---->`);
+  }
+  if (!$props.itemList.length) {
+    _push(`<span class="task-counter" data-v-6220eadf>No completed tasks yet</span>`);
+  } else {
+    _push(`<!---->`);
+  }
+  if ($props.itemList.length) {
+    _push(`<span class="task-counter" data-v-6220eadf>${ssrInterpolate($props.itemList.length)} tasks completed</span>`);
+  } else {
+    _push(`<!---->`);
+  }
+  _push(`</div>`);
 }
 const _sfc_setup$5 = _sfc_main$5.setup;
 _sfc_main$5.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/NewItemForm.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/CompletedBrickList.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-d545456e"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-6220eadf"]]);
 const _sfc_main$4 = {
   props: {
     list: {
+      type: Array,
+      required: true
+    },
+    completedList: {
       type: Array,
       required: true
     },
@@ -10288,17 +10334,20 @@ const _sfc_main$4 = {
 };
 function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Icon = __nuxt_component_0$1;
+  const _component_CompletedBrickList = __nuxt_component_1;
   _push(`<div${ssrRenderAttrs(mergeProps({
     class: ["bricklist", !$props.collapse ? "show" : ""]
-  }, _attrs))} data-v-cc412d13><div class="animation-wrapper" data-v-cc412d13><ul data-v-cc412d13><!--[-->`);
+  }, _attrs))} data-v-065372e9><div class="animation-wrapper" data-v-065372e9><ul data-v-065372e9><!--[-->`);
   ssrRenderList($props.list, (item) => {
-    _push(`<li class="item" data-v-cc412d13><div class="${ssrRenderClass(["tetromino", item.shape])}" data-v-cc412d13></div> ${ssrInterpolate(item.name)} <button class="removeItemBtn" data-v-cc412d13>`);
+    _push(`<li class="item" data-v-065372e9><div class="${ssrRenderClass(["tetromino", item.shape])}" data-v-065372e9></div> ${ssrInterpolate(item.name)} <button class="removeItemBtn" data-v-065372e9>`);
     _push(ssrRenderComponent(_component_Icon, { name: "carbon:trash-can" }, null, _parent));
     _push(`</button></li>`);
   });
-  _push(`<!--]--></ul><button class="addItemBtn primary-btn" data-v-cc412d13>`);
+  _push(`<!--]--></ul><button class="addItemBtn primary-btn" data-v-065372e9>`);
   _push(ssrRenderComponent(_component_Icon, { name: "carbon:add" }, null, _parent));
-  _push(` Add Item </button></div></div>`);
+  _push(` Add Item </button>`);
+  _push(ssrRenderComponent(_component_CompletedBrickList, { itemList: $props.completedList }, null, _parent));
+  _push(`</div></div>`);
 }
 const _sfc_setup$4 = _sfc_main$4.setup;
 _sfc_main$4.setup = (props, ctx) => {
@@ -10306,7 +10355,7 @@ _sfc_main$4.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/Bricklist.vue");
   return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
-const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2], ["__scopeId", "data-v-cc412d13"]]);
+const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2], ["__scopeId", "data-v-065372e9"]]);
 const _sfc_main$3 = {
   name: "MobileKeypad",
   props: {
@@ -10439,18 +10488,18 @@ const _sfc_main$2 = {
   data() {
     return {
       listData: [],
+      completedListData: [],
       tetrominos,
       colors,
       canvas: null,
+      ctx: null,
+      // canvas context
       windowWidth: 0,
       gameWidth: 0,
       gameHeight: 0,
-      ctx: null,
-      // canvas context
       grid: 32,
-      tetrominoSequence: [],
-      // not using? deprecate?
       playfield: [],
+      currentTetromino: null,
       isPlaying: false,
       isLoading: true,
       linesCleared: 0,
@@ -10458,22 +10507,22 @@ const _sfc_main$2 = {
       modalData: {
         name: "",
         description: "",
-        shape: ""
+        shape: null
       },
-      currentTetromino: null,
-      count: 0,
-      // animation frame counter
-      animation: null,
-      // track animation so we can toggle it
-      showMobileKeypad: false,
-      // show mobile keypad if user is on mobile
       newItemData: {
         name: "new item",
         shape: "I"
-      }
+      },
+      count: 0,
+      // animation frame counter
+      animation: null,
+      // track tetromino animation so we can toggle it
+      showMobileKeypad: false
+      // show mobile keypad if user is on mobile
     };
   },
   watch: {
+    // save playfield & list data to local storage
     playfield: {
       handler(newPlayfield) {
         localStorage.setItem("playfield", JSON.stringify(newPlayfield));
@@ -10486,6 +10535,7 @@ const _sfc_main$2 = {
       },
       deep: true
     },
+    // if window width changes, update gameboard size
     windowWidth: {
       handler(newWindowWidth) {
         this.configPlayfield();
@@ -10493,13 +10543,27 @@ const _sfc_main$2 = {
     }
   },
   methods: {
-    // sets up the playfield grid data model
+    // * gameboard management *
+    // setupGameboard sets up the playfield grid data model
     setupGameboard() {
       for (let row = -2; row < 20; row++) {
         this.playfield[row] = [];
         for (let col = 0; col < 10; col++) {
           this.playfield[row][col] = 0;
         }
+      }
+    },
+    // setup playfield visual view
+    configPlayfield() {
+      this.windowWidth = (void 0).innerWidth;
+      if (this.windowWidth < 500) {
+        this.grid = 20;
+        this.gameWidth = 200;
+        this.gameHeight = 400;
+      } else {
+        this.grid = 32;
+        this.gameWidth = 320;
+        this.gameHeight = 640;
       }
     },
     clearGameboard() {
@@ -10528,6 +10592,7 @@ const _sfc_main$2 = {
       }
       this.drawTetromino();
     },
+    // drawPlayfield draws the playfield grid (and all placed tetrominos) on the canvas view
     drawPlayfield() {
       for (let row = 0; row < this.playfield.length; row++) {
         for (let col = 0; col < this.playfield[row].length; col++) {
@@ -10544,11 +10609,10 @@ const _sfc_main$2 = {
         }
       }
     },
-    /**
-     * Draws the initial tetromino on the canvas.
-     * @param {string} shape - The letter corresponding to the tetromino shape to draw.
-     **/
-    spawnTetromino(shape) {
+    // spawnTetromino draws the initial tetromino on the canvas
+    spawnTetromino(args) {
+      const { shape, title } = args;
+      this.completedListData.push(title);
       this.currentTetromino = {
         name: shape,
         matrix: this.tetrominos[shape],
@@ -10558,6 +10622,7 @@ const _sfc_main$2 = {
       this.drawTetromino();
       this.animation = requestAnimationFrame(this.gameLoop);
     },
+    // drawTetromino updates the current tetromino position on the canvas according to its row and col properties
     drawTetromino() {
       const tetromino = this.currentTetromino;
       if (!tetromino)
@@ -10576,7 +10641,8 @@ const _sfc_main$2 = {
         }
       }
     },
-    // place the tetromino on the playfield
+    // placeTetromino into the playfield,
+    // check for line clears / game over conditions
     placeTetromino() {
       const tetromino = this.currentTetromino;
       for (let row = 0; row < tetromino.matrix.length; row++) {
@@ -10606,16 +10672,7 @@ const _sfc_main$2 = {
       this.drawPlayfield();
       this.currentTetromino = null;
     },
-    showGameOver() {
-      this.isPlaying = false;
-      this.modalData = {
-        name: "Game Over",
-        description: "Your game is over. Close this message and click clear board to play again!",
-        shape: "none"
-      };
-      this.modalShow = !this.modalShow;
-    },
-    // tetromino movement
+    // * tetromino movement *
     handleKeyPress(e) {
       if (this.currentTetromino === null)
         return;
@@ -10663,11 +10720,31 @@ const _sfc_main$2 = {
       }
       return true;
     },
+    // * modal management *
     showModal(item) {
       this.modalData = item;
       this.modalShow = !this.modalShow;
     },
-    // item management
+    // Welcome modal
+    showWelcome() {
+      this.modalData = {
+        name: "Welcome to Bricktris: To-do list plus classic game, with pomodoro timers 🌈",
+        description: "Add things you'd like to get done to the list, then click an item you'd like to start. Use the optional timer or click complete when your task is done. A piece will appear on the game board. Use the arrow keys to move and rotate the piece. Clear lines to score points. Have fun!",
+        shape: null
+      };
+      this.modalShow = !this.modalShow;
+    },
+    // Game over modal
+    showGameOver() {
+      this.isPlaying = false;
+      this.modalData = {
+        name: "Game Over",
+        description: "Your game is over. Close this message and click clear board to play again!",
+        shape: "none"
+      };
+      this.modalShow = !this.modalShow;
+    },
+    // * item management *
     addListItem(item) {
       this.listData.push(item);
       this.modalShow = !this.modalShow;
@@ -10675,19 +10752,6 @@ const _sfc_main$2 = {
     removeListItem(item) {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
-    },
-    // setup playfield visual view
-    configPlayfield() {
-      this.windowWidth = (void 0).innerWidth;
-      if (this.windowWidth < 500) {
-        this.grid = 20;
-        this.gameWidth = 200;
-        this.gameHeight = 400;
-      } else {
-        this.grid = 32;
-        this.gameWidth = 320;
-        this.gameHeight = 640;
-      }
     }
   },
   beforeMount() {
@@ -10710,6 +10774,7 @@ const _sfc_main$2 = {
     this.showMobileKeypad = isUserUsingMobile$1();
     this.$nextTick(() => {
       this.drawPlayfield();
+      this.showWelcome();
     });
     (void 0).addEventListener("keydown", this.handleKeyPress);
     (void 0).addEventListener("resize", this.configPlayfield);
@@ -10721,11 +10786,11 @@ const _sfc_main$2 = {
 };
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_Modal = __nuxt_component_0;
-  const _component_NewItemForm = __nuxt_component_1;
+  const _component_NewItemForm = __nuxt_component_1$1;
   const _component_Bricklist = __nuxt_component_2;
   const _component_MobileKeypad = __nuxt_component_3;
   if (!$data.isLoading) {
-    _push(`<div${ssrRenderAttrs(mergeProps({ class: "apptheme" }, _attrs))} data-v-aa7889f4>`);
+    _push(`<div${ssrRenderAttrs(mergeProps({ class: "apptheme" }, _attrs))} data-v-69147dae>`);
     _push(ssrRenderComponent(_component_Modal, {
       show: $data.modalShow,
       title: $data.modalData.name ? $data.modalData.name : "Welcome",
@@ -10756,15 +10821,16 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
       }),
       _: 1
     }, _parent));
-    _push(`<div class="headerbar" data-v-aa7889f4><h2 data-v-aa7889f4>Bricktris</h2> | <span class="score" data-v-aa7889f4>score: ${ssrInterpolate($data.linesCleared)}</span></div><div class="twocol" data-v-aa7889f4><div class="leftcol" data-v-aa7889f4>`);
+    _push(`<div class="headerbar" data-v-69147dae><h2 data-v-69147dae>Bricktris</h2> | <span class="score" data-v-69147dae>score: ${ssrInterpolate($data.linesCleared)}</span></div><div class="twocol" data-v-69147dae><div class="leftcol" data-v-69147dae>`);
     _push(ssrRenderComponent(_component_Bricklist, {
       list: $data.listData,
+      "completed-list": $data.completedListData,
       collapse: $data.isPlaying,
       onToggleModal: (i) => $options.showModal(i),
       onNewListItem: (i) => $options.showModal($data.newItemData),
       onRemoveListItem: (i) => $options.removeListItem(i)
     }, null, _parent));
-    _push(`<div data-v-aa7889f4><button class="small" data-v-aa7889f4> Clear Game Board </button></div>`);
+    _push(`<div data-v-69147dae><button class="clear-board-btn small" data-v-69147dae> Clear Game Board </button></div>`);
     if ($data.showMobileKeypad) {
       _push(ssrRenderComponent(_component_MobileKeypad, {
         onHandleKeyPress: (e) => $options.handleKeyPress(e),
@@ -10773,7 +10839,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     } else {
       _push(`<!---->`);
     }
-    _push(`</div><div class="rightcol" data-v-aa7889f4><canvas id="game"${ssrRenderAttr("width", $data.gameWidth)}${ssrRenderAttr("height", $data.gameHeight)} class="grid" data-v-aa7889f4></canvas></div></div></div>`);
+    _push(`</div><div class="rightcol" data-v-69147dae><canvas id="game"${ssrRenderAttr("width", $data.gameWidth)}${ssrRenderAttr("height", $data.gameHeight)} class="grid" data-v-69147dae></canvas></div></div></div>`);
   } else {
     _push(`<!---->`);
   }
@@ -10784,7 +10850,7 @@ _sfc_main$2.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-aa7889f4"]]);
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-69147dae"]]);
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,

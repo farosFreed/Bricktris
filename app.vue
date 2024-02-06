@@ -26,13 +26,14 @@
       <div class="leftcol">
         <Bricklist
           :list="listData"
+          :completed-list="completedListData"
           :collapse="isPlaying"
           @toggleModal="(i) => showModal(i)"
           @newListItem="(i) => showModal(newItemData)"
           @removeListItem="(i) => removeListItem(i)"
         />
         <div>
-          <button class="small" @click="clearGameboard">
+          <button class="clear-board-btn small" @click="clearGameboard">
             Clear Game Board
           </button>
         </div>
@@ -83,16 +84,17 @@ export default {
   data() {
     return {
       listData: [] as ListItem[],
+      completedListData: [] as string[],
       tetrominos: tetrominos,
       colors: colors,
       canvas: null as HTMLElement | null,
+      ctx: null, // canvas context
       windowWidth: 0,
       gameWidth: 0,
       gameHeight: 0,
-      ctx: null, // canvas context
       grid: 32,
-      tetrominoSequence: [], // not using? deprecate?
       playfield: [] as Array<Array<string | number>>,
+      currentTetromino: null as Tetromino | null,
       isPlaying: false,
       isLoading: true,
       linesCleared: 0,
@@ -100,19 +102,19 @@ export default {
       modalData: {
         name: "",
         description: "",
-        shape: "",
+        shape: null,
       } as ListItem,
-      currentTetromino: null as Tetromino | null,
-      count: 0, // animation frame counter
-      animation: null as number | null, // track animation so we can toggle it
-      showMobileKeypad: false, // show mobile keypad if user is on mobile
       newItemData: {
         name: "new item",
         shape: "I",
       } as ListItem,
+      count: 0, // animation frame counter
+      animation: null as number | null, // track tetromino animation so we can toggle it
+      showMobileKeypad: false, // show mobile keypad if user is on mobile
     };
   },
   watch: {
+    // save playfield & list data to local storage
     playfield: {
       handler(newPlayfield) {
         localStorage.setItem("playfield", JSON.stringify(newPlayfield));
@@ -125,6 +127,7 @@ export default {
       },
       deep: true,
     },
+    // if window width changes, update gameboard size
     windowWidth: {
       handler(newWindowWidth) {
         this.configPlayfield();
@@ -132,7 +135,8 @@ export default {
     },
   },
   methods: {
-    // sets up the playfield grid data model
+    // * gameboard management *
+    // setupGameboard sets up the playfield grid data model
     setupGameboard() {
       // create playfield
       for (let row = -2; row < 20; row++) {
@@ -140,6 +144,20 @@ export default {
         for (let col = 0; col < 10; col++) {
           this.playfield[row][col] = 0;
         }
+      }
+    },
+    // setup playfield visual view
+    configPlayfield() {
+      // change grid size based on screen size
+      this.windowWidth = window.innerWidth;
+      if (this.windowWidth < 500) {
+        this.grid = 20;
+        this.gameWidth = 200;
+        this.gameHeight = 400;
+      } else {
+        this.grid = 32;
+        this.gameWidth = 320;
+        this.gameHeight = 640;
       }
     },
     clearGameboard() {
@@ -173,6 +191,7 @@ export default {
       }
       this.drawTetromino();
     },
+    // drawPlayfield draws the playfield grid (and all placed tetrominos) on the canvas view
     drawPlayfield() {
       for (let row = 0; row < this.playfield.length; row++) {
         for (let col = 0; col < this.playfield[row].length; col++) {
@@ -189,11 +208,11 @@ export default {
         }
       }
     },
-    /**
-     * Draws the initial tetromino on the canvas.
-     * @param {string} shape - The letter corresponding to the tetromino shape to draw.
-     **/
-    spawnTetromino(shape: string) {
+    // spawnTetromino draws the initial tetromino on the canvas
+    spawnTetromino(args: { shape: string; title: string }) {
+      const { shape, title } = args;
+      // move item to completed list
+      this.completedListData.push(title);
       // create tetromino object to track name, position, and rotation of drawing
       this.currentTetromino = {
         name: shape,
@@ -205,6 +224,7 @@ export default {
       //start falling animation
       this.animation = requestAnimationFrame(this.gameLoop);
     },
+    // drawTetromino updates the current tetromino position on the canvas according to its row and col properties
     drawTetromino() {
       const tetromino = this.currentTetromino;
       if (!tetromino) return;
@@ -223,15 +243,15 @@ export default {
         }
       }
     },
-    // place the tetromino on the playfield
+    // placeTetromino into the playfield,
+    // check for line clears / game over conditions
     placeTetromino() {
-      const tetromino = this.currentTetromino;
+      const tetromino = this.currentTetromino!;
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
             // game over if piece has any part offscreen
             if (tetromino.row - row < 0) {
-              // TO DO put into game over function
               this.showGameOver();
             }
             this.playfield[tetromino.row + row][tetromino.col + col] =
@@ -259,17 +279,7 @@ export default {
       this.drawPlayfield();
       this.currentTetromino = null;
     },
-    showGameOver() {
-      this.isPlaying = false;
-      this.modalData = {
-        name: "Game Over",
-        description:
-          "Your game is over. Close this message and click clear board to play again!",
-        shape: "none",
-      };
-      this.modalShow = !this.modalShow;
-    },
-    // tetromino movement
+    // * tetromino movement *
     handleKeyPress(e: KeyboardEvent) {
       // if there is no current tetromino, do nothing
       if (this.currentTetromino === null) return;
@@ -331,11 +341,33 @@ export default {
       }
       return true;
     },
+    // * modal management *
     showModal(item: ListItem) {
       this.modalData = item;
       this.modalShow = !this.modalShow;
     },
-    // item management
+    // Welcome modal
+    showWelcome() {
+      this.modalData = {
+        name: "Welcome to Bricktris: To-do list plus classic game, with pomodoro timers 🌈",
+        description:
+          "Add things you'd like to get done to the list, then click an item you'd like to start. Use the optional timer or click complete when your task is done. A piece will appear on the game board. Use the arrow keys to move and rotate the piece. Clear lines to score points. Have fun!",
+        shape: null,
+      };
+      this.modalShow = !this.modalShow;
+    },
+    // Game over modal
+    showGameOver() {
+      this.isPlaying = false;
+      this.modalData = {
+        name: "Game Over",
+        description:
+          "Your game is over. Close this message and click clear board to play again!",
+        shape: "none",
+      };
+      this.modalShow = !this.modalShow;
+    },
+    // * item management *
     addListItem(item: ListItem) {
       this.listData.push(item);
       this.modalShow = !this.modalShow;
@@ -343,20 +375,6 @@ export default {
     removeListItem(item: ListItem) {
       const index = this.listData.indexOf(item);
       this.listData.splice(index, 1);
-    },
-    // setup playfield visual view
-    configPlayfield() {
-      // change grid size based on screen size
-      this.windowWidth = window.innerWidth;
-      if (this.windowWidth < 500) {
-        this.grid = 20;
-        this.gameWidth = 200;
-        this.gameHeight = 400;
-      } else {
-        this.grid = 32;
-        this.gameWidth = 320;
-        this.gameHeight = 640;
-      }
     },
   },
   beforeMount() {
@@ -382,6 +400,7 @@ export default {
 
     this.$nextTick(() => {
       this.drawPlayfield();
+      this.showWelcome();
     });
 
     // listen for keydown & resize events
@@ -409,6 +428,9 @@ export default {
     margin-left: auto;
     padding: $spacer;
   }
+}
+.clear-board-btn {
+  margin-top: $spacer;
 }
 .grid {
   border: 1px solid $button-border-color;

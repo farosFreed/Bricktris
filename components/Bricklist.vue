@@ -26,6 +26,7 @@
       <button class="addItemBtn primary-btn" @click="$emit('newListItem')">
         <Icon name="carbon:add" /> Add Item
       </button>
+      <CompletedBrickList :itemList="completedList" />
     </div>
   </div>
 </template>
@@ -35,6 +36,10 @@ export default {
   props: {
     list: {
       type: Array<ListItem>,
+      required: true,
+    },
+    completedList: {
+      type: Array<String>,
       required: true,
     },
     collapse: {
@@ -51,6 +56,7 @@ export default {
 @media (max-width: $max-width) and (orientation: portrait) {
   .bricklist {
     display: grid;
+    max-width: $list-max-width;
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.25s ease-out;
     margin: 0 auto;
@@ -63,9 +69,6 @@ export default {
   }
 }
 
-.bricklist {
-  max-width: 350px;
-}
 ul {
   list-style-type: none;
   padding: 0;

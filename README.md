@@ -1,12 +1,6 @@
 # Motivational Tetromino To Do List
 
-Built with Nuxt
-
-To do list:
-
-- Do something with graphQL query component
-- Add timer to item to-do modal?
-- Jest Tests
+A classic game meets a to-do list with pomodoro timers. 🌈
 
 ## Setup
 
@@ -43,3 +37,21 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## QA Test Checklist
+
+When pushing a new version to production, do these QA checks first.
+
+In both Chrome & Firefox:
+
+- Test creating / deleting an item
+- Test completing an item
+- Test rotating and moving on desktop and mobile devices
+- Test reloading the tab to see that data has persisted
+
+## Developer TODO List
+
+- Jest Tests
+- Github Actions: runs tests, create documentation (w/ Husky?)
+- Do something with graphQL query component?
+- Write a toggleable AI to auto-play the game?
