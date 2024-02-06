@@ -2,11 +2,23 @@
   <div class="pomodoro">
     <div class="timer">{{ formatTime }}</div>
     <div v-if="time > 0">
-      <button @click="time -= 60" class="minus-button small">-</button>
+      <button
+        aria-label="subtract a minute from the timer"
+        @click="time -= 60"
+        class="minus-button small"
+      >
+        -
+      </button>
       <button @click="toggleTimer" class="toggle-button small">
         {{ isPaused ? "Start" : "Pause" }}
       </button>
-      <button @click="time += 60" class="plus-button small">+</button>
+      <button
+        aria-label="add a minute to the timer"
+        @click="time += 60"
+        class="plus-button small"
+      >
+        +
+      </button>
     </div>
   </div>
 </template>

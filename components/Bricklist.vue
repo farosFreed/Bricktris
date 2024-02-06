@@ -12,6 +12,7 @@
           {{ item.name }}
           <button
             class="removeItemBtn"
+            aria-label="Remove item"
             @click="
               (e) => {
                 e.stopPropagation();

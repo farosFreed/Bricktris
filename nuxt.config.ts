@@ -1,5 +1,13 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: "en",
+      },
+      title: "Bricktris",
+      charset: "utf-8",
+    },
+  },
   devtools: { enabled: true },
   modules: ["nuxt-icon", "@nuxtjs/apollo"],
   apollo: {

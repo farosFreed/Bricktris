@@ -2,24 +2,28 @@
   <div class="keypad" :style="{ width: width + 'px' }">
     <button
       class="square-button"
-      alt="move left"
+      aria-label="move piece left"
       @click="$emit('handleKeyPress', keyLeftEvent)"
     >
       <Icon name="carbon:arrow-left" />
     </button>
-    <button class="circle-button" @click="$emit('handleKeyPress', keyUpEvent)">
+    <button
+      class="circle-button"
+      aria-label="rotate piece"
+      @click="$emit('handleKeyPress', keyUpEvent)"
+    >
       <Icon name="carbon:rotate-360" />
     </button>
     <button
       class="square-button"
-      alt="rotate"
+      aria-label="rotate piece"
       @click="$emit('handleKeyPress', keyRightEvent)"
     >
       <Icon name="carbon:arrow-right" />
     </button>
     <button
       class="arrow-button"
-      alt="move right"
+      aria-label="move piece right"
       @click="$emit('handleKeyPress', keyDownEvent)"
     >
       <Icon name="carbon:arrow-down" />
