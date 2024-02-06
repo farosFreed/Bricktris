@@ -11,12 +11,8 @@
       <h2 v-if="title">{{ title }}</h2>
       <slot>
         <p>{{ text }}</p>
-        <Timer ref="timer" />
-        <button
-          v-if="shape !== 'none'"
-          class="primary-btn"
-          @click="completeTask"
-        >
+        <Timer v-if="shape" ref="timer" />
+        <button v-if="shape" class="primary-btn" @click="completeTask">
           <Icon name="carbon:checkmark" /> Complete Task
         </button>
       </slot>
@@ -47,13 +43,12 @@ export default {
   },
   methods: {
     completeTask() {
+      if (!this.shape) return;
       // stop timer & reset to default time
       this.$refs.timer.pauseTimer();
       this.$refs.timer.time = 1200;
-      // spawn teromino on game board
-      if (this.shape) {
-        this.$emit("spawnTetromino", this.shape);
-      }
+      // spawn teromino on game board & add to completed list
+      this.$emit("spawnTetromino", { shape: this.shape, title: this.title });
       this.$emit("closeModal");
     },
   },

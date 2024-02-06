@@ -29,6 +29,10 @@ body {
   padding: 0;
 }
 
+ul {
+  list-style: none;
+}
+
 button {
   background-color: #eaeaf8;
   border: 1px solid #6e7a8a;

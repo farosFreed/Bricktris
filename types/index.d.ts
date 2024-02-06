@@ -1,9 +1,18 @@
 // types/index.d.ts
 declare global {
+  enum Shape {
+    I = "I",
+    J = "J",
+    L = "L",
+    O = "O",
+    S = "S",
+    T = "T",
+    Z = "Z",
+  }
   interface ListItem {
     name: string;
     description?: string;
-    shape: string;
+    shape: Shape | null;
   }
 
   interface Tetromino {
